@@ -14,9 +14,9 @@
 
     <md-content class="users-container">
         <md-list flex>
-            <md-list-item ng-repeat="user in vm.users | orderBy:'status' | filter: { name: vm.searchText }" ng-click="vm.selectUser(user)"
-                          ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.id}">
-                <h6>{{ user.name }}</h6>
+            <md-list-item ng-repeat="user in vm.users | orderBy:'status' | filter: { userName: vm.searchText }" ng-click="vm.selectUser(user)"
+                          ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.userId}">
+                <h6>{{ user.userName }}</h6>
                 <span flex></span>
                 <span class="user-status"
                       ng-class="user.status === '1' ? 'active-status' : ( user.status === '2' ? 'not-here-status' : 'not-active')"></span>

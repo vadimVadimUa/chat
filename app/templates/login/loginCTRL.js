@@ -14,9 +14,9 @@
         vm.url = url;
         vm.loginError = '';
         vm.UserData = {
-            username: "",
-            userid: "",
-            company: ""
+            username: "dd3",
+            userid: 1,
+            company: "00013"
         };
 
         function Login() {
@@ -26,7 +26,7 @@
                 // $window.open(url, "C-Sharpcorner", "width=700,height=500");
                 console.log(vm.url.login);
                 console.log(vm.UserData);
-                requestFactory.requestPost(vm.url.login, vm.UserData)
+                requestFactory.requestPost('http://localhost:8080/'+vm.url.login, vm.UserData)
                     .then(function (gooddata) {
                         console.log(gooddata);
                         $rootScope.user = gooddata.data;

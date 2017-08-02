@@ -7,7 +7,7 @@
 
 
     function url() {
-        var server = "http://192.168.1.111:9080/WSChatWeb/";
+        var server = "http://192.168.1.105:9080/WSChatWeb/";
         var url = {
             login: server + 'login_custom',
             socket: server+'wschat'
