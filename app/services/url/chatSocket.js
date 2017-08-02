@@ -3,7 +3,11 @@
 
 
     angular.module('app')
-        .factory('chatSocket', ['$rootScope', function($rootScope) {
+        .factory('chatSocket',  chatSocket);
+
+        chatSocket.inject=['$rootScope'];
+
+        function chatSocket($rootScope) {
             var stompClient;
 
             var wrappedSocket = {
@@ -37,4 +41,6 @@
 
             return wrappedSocket;
 
-        }]); })();
+        };
+
+})();

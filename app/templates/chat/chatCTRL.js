@@ -6,8 +6,8 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.inject = ['$scope', 'webSocketRequest', 'requestFactory','chatSocket','$interval'];
-    function ChatCtrl($scope, webSocketRequest, requestFactory,chatSocket,$interval) {
+    ChatCtrl.inject = ['$scope', 'webSocketRequest', 'requestFactory','chatSocket','$interval','url'];
+    function ChatCtrl($scope, webSocketRequest, requestFactory, chatSocket, $interval, url) {
 
         var vm = this;
 
@@ -57,7 +57,7 @@
         };
 
         var initStompClient = function() {
-             chatSocket.init('http://192.168.1.111:9080/WSChatWeb/wschat');
+             chatSocket.init(url.socket);
             //  chatSocket.init('/WSChatWeb/wschat');
 
             chatSocket.connect(function(frame) {

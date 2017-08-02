@@ -30,9 +30,9 @@
                     .then(function (gooddata) {
                         console.log(gooddata);
                         $rootScope.user = gooddata.data;
-                        // $state.go('chat');
-                        var url = $state.href('chat');
-                        $window.open(url, "C-Sharpcorner", "width=700,height=500");
+                        $state.go('chat');
+                        // var url = $state.href('chat');
+                        // $window.open(url, "C-Sharpcorner", "width=700,height=500");
                     }, function (errordata) {
                     console.log(errordata);
                     vm.loginError = 'User data does not match';
