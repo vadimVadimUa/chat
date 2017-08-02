@@ -1,0 +1,50 @@
+<div ng-cloak>
+    <md-content>
+        <md-tabs class="login-container" md-dynamic-height md-border-bottom md-center-tabs="true">
+            <md-tab label="Login">
+                <form name="loginForm" ng-submit="vm.Login()">
+                    <md-content class="md-padding">
+                        <div layout="column" layout-padding ng-cloak>
+                            <md-content class="md-no-momentum">
+                                <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder -->
+                                    <label>User Name</label>
+                                    <input name="username" ng-model="vm.UserData.username" type="text" required>
+                                </md-input-container>
+                                <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder -->
+                                    <label>User ID</label>
+                                    <input name="userid" ng-model="vm.UserData.userid" type="number" required>
+                                </md-input-container>
+                                <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder -->
+                                    <label>Channel</label>
+                                    <input name="company" ng-model="vm.UserData.company" type="text" required>
+                                </md-input-container>
+                            </md-content>
+                            <span class="loginError">{{vm.loginError}}</span>
+                            <section layout="column" layout-align="center end" layout-wrap>
+                                <md-button  type="submit" class="md-raised md-primary">Login</md-button>
+                            </section>
+                        </div>
+                    </md-content>
+                </form>
+            </md-tab>
+            <md-tab label="Test">
+                <md-content class="md-padding">
+                    <div layout="column" layout-padding ng-cloak>
+                        <md-content class="md-no-momentum">
+                            <md-input-container class="md-icon-float md-block">
+                                <!-- Use floating label instead of placeholder -->
+                                <label>Start Id</label>
+                                <input ng-model="user.name" type="text">
+                            </md-input-container>
+                        </md-content>
+                        <section layout="column" layout-align="center end" layout-wrap>
+                            <md-button class="md-raised md-primary">Test</md-button>
+                        </section>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+</div>

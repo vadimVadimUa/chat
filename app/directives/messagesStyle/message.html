@@ -1,0 +1,6 @@
+<div layout="row" class="md-list-item-text message-item" flex layout-wrap>
+    <div class="containerText" ng-class="message.userFlag ? 'myMessageStyle': 'anotherUserMessagesStyle'" flex>
+        <span class="message-text" > {{ message.message }} </span>
+    </div>
+    <p flex="nogrow" > {{ message.date| date:'HH:mm' }} </p>
+</div>

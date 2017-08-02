@@ -1,0 +1,94 @@
+
+
+.message-container{
+    height: 100vh;
+}
+.message-box{
+    overflow-y: auto;
+    width: 100%;
+}
+/*scroll style*/
+.message-box::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 6px;
+    background-color: #F5F5F5;
+}
+.message-box::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+.message-box::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #ccc;
+}
+/*end scroll style*/
+.message-box md-list-item-text{
+    margin: 0!important;
+}
+.new-message-box{
+    padding: 0 0px 10px 10px;
+    /*height:80px;*/
+    border-top: 1px solid #E7E7E7;
+    background: #EBEBEB;
+}
+.new-message-box md-input-container{
+    margin-bottom: 0px;
+}
+
+.container-more-message{
+    border-bottom: 1px solid #ccc;
+    margin: 0 90px 10px 50px;
+}
+
+
+.container-2 {
+    display: inline-block;
+    width: calc(100% - 120px);
+    vertical-align: middle;
+    position: relative;
+    background: transparent;
+}
+
+.container-2 input#new-message {
+    margin: 10px 0 10px 15px;
+    width: calc(100% - 52px);
+    background: #fff;
+    border: none;
+    font-size: 10pt;
+    color: #777;
+    -webkit-border-radius: 5px;
+
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    outline: none;
+    resize: none;
+    padding: 10px;
+}
+
+
+.container-2 input#new-message::-webkit-input-placeholder {
+    color: #BBB;
+}
+
+.container-2 input#new-message:-moz-placeholder { /* Firefox 18- */
+    color: #BBB;
+}
+
+.container-2 input#new-message::-moz-placeholder { /* Firefox 19+ */
+    color: #BBB;
+}
+
+.container-2 input#new-message:-ms-input-placeholder {
+    color: #BBB;
+}
+
+
+.sent-btn {
+    height: 20px !important;
+    width: 10px !important;
+    margin-top: 10px;
+}

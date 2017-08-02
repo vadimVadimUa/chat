@@ -1,0 +1,18 @@
+
+.container-logo{
+    height: 100vh;
+    background-image: url(../../images/background.png);
+
+}
+.logo{
+    height: 80vh;
+    background: url(../../images/ximple.png) no-repeat center center;
+}
+.loginError{
+    font-size: 12px;
+    display: block;
+    text-align: center;
+    color:#DD2C00;
+    min-height: 14px;
+    padding: 0;
+}

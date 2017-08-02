@@ -1,0 +1,32 @@
+<div class="container-main">
+    <div class="box">
+        <div class="container-1">
+            <span class="icon"><md-icon> search </md-icon></span>
+            <input type="search" id="search" placeholder="Search..." ng-model="vm.searchText"/>
+        </div>
+
+        <select ng-change="vm.statusChange()" name="repeatSelect" id="repeatSelect" ng-model="vm.data.selected"
+                class="btn-selected"
+                ng-class="vm.data.selected== 1 ? 'green ' : (vm.data.selected== 2 ? 'yellow' : 'red')">
+            <option ng-repeat="option in vm.data.availableOptions" value="{{option.id}}">{{option.status}}</option>
+        </select>
+    </div>
+
+    <md-content class="users-container">
+        <md-list flex>
+            <md-list-item ng-repeat="user in vm.users | orderBy:'status' | filter: { name: vm.searchText }" ng-click="vm.selectUser(user)"
+                          ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.id}">
+                <h6>{{ user.name }}</h6>
+                <span flex></span>
+                <span class="user-status"
+                      ng-class="user.status === '1' ? 'active-status' : ( user.status === '2' ? 'not-here-status' : 'not-active')"></span>
+            </md-list-item>
+        </md-list>
+    </md-content>
+
+    <div class="helper" layout="row" layout-align="center">
+        <div flex="50">Online: {{vm.TotalUsers}}</div>
+        <div class="totalUsers" flex="50">Total: {{vm.users.length}}</div>
+    </div>
+</div>
+
