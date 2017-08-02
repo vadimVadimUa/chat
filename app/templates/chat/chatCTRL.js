@@ -6,7 +6,7 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.inject = ['$scope', 'webSocketRequest', 'requestFactory','chatSocket','$interval','url'];
+    ChatCtrl.$inject = ['$scope', 'webSocketRequest', 'requestFactory','chatSocket','$interval','url'];
     function ChatCtrl($scope, webSocketRequest, requestFactory, chatSocket, $interval, url) {
 
         var vm = this;

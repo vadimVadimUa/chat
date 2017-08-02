@@ -5,7 +5,7 @@
         .module('app')
         .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.inject = ['$scope', '$state', '$window', 'url', 'requestFactory', '$http', '$rootScope'];
+    LoginCtrl.$inject = ['$scope', '$state', '$window', 'url', 'requestFactory', '$http', '$rootScope'];
 
     function LoginCtrl($scope, $state, $window, url, requestFactory, $http, $rootScope) {
         var vm = this;

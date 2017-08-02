@@ -4,7 +4,7 @@
     angular
         .module('app')
         .factory('webSocketRequest', webSocketRequest);
-    webSocketRequest.inject = ['$websocket', 'url', '$timeout', '$rootScope'];
+    webSocketRequest.$inject = ['$websocket', 'url', '$timeout', '$rootScope'];
 
     function webSocketRequest($websocket, url, $timeout, $rootScope) {
 

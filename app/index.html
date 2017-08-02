@@ -5,17 +5,21 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- build:css all.min.css -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="libs/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="templates/login/login.css">
     <link rel="stylesheet" href="templates/chat/chat-screen.css">
     <link rel="stylesheet" href="directives/user-list/users-list.css">
     <link rel="stylesheet" href="directives/messagesStyle/message.css">
+    <!-- endbuild -->
     <title>Login</title>
 </head>
 <body>
 
 <ui-view></ui-view>
+
+<!-- build:js all.min.js -->
 
 <!--Libs-->
 <script src="libs/angular/angular.js"></script>
@@ -51,6 +55,6 @@
 <script src="directives/user-list/users-list.ctrl.js"></script>
 <script src="directives/ng-enter/ngEnter.js"></script>
 <script src="directives/messagesStyle/message.directive.js"></script>
-
+<!-- endbuild -->
 </body>
 </html>

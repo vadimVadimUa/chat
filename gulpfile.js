@@ -8,10 +8,56 @@ var browserSync = require('browser-sync').create();
 var env = plug.util.env;
 var log = plug.util.log;
 
+gulp.task('test',function () {
+    return gulp.src('app/**/*.js').on('data',function (file) {
+        console.log(file);
+    }).pipe(gulp.dest('build'));
+});
+
+gulp.task('scripts', function() {
+    return gulp.src('app/index.html')
+        .pipe(plug.useref())
+        .pipe(plug.if('*.js', plug.uglify())).on('error', function(e){
+            console.log(e);})
+        .pipe(gulp.dest('build'))
+        .pipe(plug.notify({ message: 'Scripts task complete' }));
+});
+
+gulp.task('styles', function() {
+    return gulp.src('app/index.html')
+        .pipe(plug.useref())
+        .pipe(plug.if('*.css',
+            plug.autoprefixer('last 2 version', '> 5%')
+            .pipe(plug.minifyCss({})
+                .pipe(gulp.dest('build')))))
+
+
+        .pipe(plug.notify({ message: 'Scripts task complete' }));
+});
+
+gulp.task('html', function () {
+    return gulp.src(['app/**/*.html', '!app/libs/**/*.html', '!app/libs'])
+        .pipe(gulp.dest('build'));
+});
+
+gulp.task('build_all',['html'],function(){
+    gulp.src('app/index.html')
+        .pipe(plug.useref())
+        .pipe(plug.if('*.css',
+            plug.autoprefixer('last 2 version', '> 5%')
+                .pipe(plug.minifyCss({})
+                    .pipe(gulp.dest('build')))))
+        .pipe(plug.if('*.js',
+            plug.uglify({mangle: true})))
+        .on('error', function(e){
+            console.log(e);})
+        .pipe(gulp.dest('build'));
+    plug.notify({ message: 'Scripts task complete' });
+});
+
 /**
  * @desc Minify and bundle the app's JavaScript
  */
-
 gulp.task('js', function () {
     log('Bundling, minifying, and copying the app\'s JavaScript');
 

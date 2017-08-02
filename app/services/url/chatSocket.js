@@ -5,7 +5,7 @@
     angular.module('app')
         .factory('chatSocket',  chatSocket);
 
-        chatSocket.inject=['$rootScope'];
+        chatSocket.$inject=['$rootScope'];
 
         function chatSocket($rootScope) {
             var stompClient;

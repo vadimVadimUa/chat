@@ -12,7 +12,7 @@
         .module('app')
         .factory('requestFactory', requestFactory);
 
-    requestFactory.inject = ['$http', '$q'];
+    requestFactory.$inject = ['$http', '$q'];
 
     function requestFactory($http, $q) {
 

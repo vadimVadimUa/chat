@@ -4,7 +4,7 @@
     angular
         .module('app')
         .factory('chatData', chatData);
-    chatData.inject = ['url', '$timeout', '$rootScope','chatSocket'];
+    chatData.$inject = ['url', '$timeout', '$rootScope','chatSocket'];
 
     function chatData( url, $timeout, $rootScope, chatSocket) {
 
