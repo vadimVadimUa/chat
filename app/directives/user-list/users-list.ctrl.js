@@ -73,7 +73,7 @@
         function selectUser(user) {
             vm.selectedUser = user.id;
             user.newMessage = false;
-            $scope.$emit('selectUser', {index: user.id});
+            $scope.$emit('selectUser', {user: user});
         }
 
         function userStateOnchange() {

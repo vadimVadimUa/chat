@@ -19,13 +19,13 @@
                 <h6>{{ user.userName }}</h6>
                 <span flex></span>
                 <span class="user-status"
-                      ng-class="user.status === '1' ? 'active-status' : ( user.status === '2' ? 'not-here-status' : 'not-active')"></span>
+                      ng-class="user.status === '0' ? 'active-status' : ( user.status === '1' ? 'not-here-status' : 'not-active')"></span>
             </md-list-item>
         </md-list>
     </md-content>
 
     <div class="helper" layout="row" layout-align="center">
-        <div flex="50">Online: {{vm.TotalUsers}}</div>
+        <div flex="50">Online: {{vm.users.length}} </div>
         <div class="totalUsers" flex="50">Total: {{vm.users.length}}</div>
     </div>
 </div>

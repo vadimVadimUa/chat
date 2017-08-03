@@ -4,14 +4,13 @@
     angular
         .module('app')
         .factory('chatData', chatData);
-    chatData.$inject = ['url', '$timeout', '$rootScope','chatSocket'];
-
-    function chatData( url, $timeout, $rootScope, chatSocket) {
+    chatData.$inject = ['url', '$rootScope','chatSocket'];
+    function chatData( url, $rootScope, chatSocket) {
 
         var vm = this;
 
         vm.userList = [];
-
+       // function for work with the backend, message - object or array
         vm.func = {
             //-- need rewrite
             login : function(message){},
@@ -19,7 +18,7 @@
             reply: function (message) {},
             chat:function (message) {},
             changeStatusUser:function (message) {},
-            //--do not change
+            //---------------------------------------do not change, only call
             sendMessage : function(obj_message) {
                     chatSocket.send("/app/chat.private", {},obj_message);
             },
@@ -38,28 +37,28 @@
 
                 chatSocket.subscribe("/topic.login", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.login(JSON.parse(message.body));
+                    vm.func.login(message.body);
                 });
 
                 chatSocket.subscribe("/topic.logout", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.logout(JSON.parse(message.body));
+                    vm.func.logout(message.body);
                 });
 
-                chatSocket.subscribe("/topic.chat."+$rootScope.user.compId, function(message) {
+                chatSocket.subscribe("/topic/chat."+$rootScope.user.compId, function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.chat(JSON.parse(message.body));
+                    vm.func.chat(message.body);
                 });
 
                 chatSocket.subscribe("/queue/reply/"+$rootScope.user.compId+"/"+$rootScope.user.userId, function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.reply(JSON.parse(message.body));
+                    vm.func.reply(message.body);
                 });
 
 
                 chatSocket.subscribe("/topic/public.changedStatus", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.changeStatusUser(JSON.parse(message.body));
+                    vm.func.changeStatusUser(message.body);
                 })
 
             }, function(error) {
