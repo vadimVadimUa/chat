@@ -24,6 +24,9 @@
             },
             changeStatusSelf : function(status) {
                 chatSocket.send("/app/change."+status, {},{});
+            },
+            initStompClient : function(){
+                initStompClient();
             }
         };
 
@@ -66,7 +69,7 @@
             });
         };
 
-        initStompClient();
+
 
         return vm.func;
 
