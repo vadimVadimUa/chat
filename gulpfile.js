@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var pkg = require('./package.json');
 var plug = require('gulp-load-plugins')();
+var delF = require('del');
 var browserSync = require('browser-sync').create();
 
 var env = plug.util.env;
@@ -13,6 +14,10 @@ gulp.task('test',function () {
         console.log(file);
     }).pipe(gulp.dest('build'));
 });
+
+gulp.task('clean',function () {
+    return delF('build');
+})
 
 gulp.task('scripts', function() {
     return gulp.src('app/index.html')
@@ -40,7 +45,7 @@ gulp.task('html', function () {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('build_all',['html'],function(){
+gulp.task('build_all',['clean','html'],function(){
     gulp.src('app/index.html')
         .pipe(plug.useref())
         .pipe(plug.if('*.css',

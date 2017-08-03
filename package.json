@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ProdaikoIvan/chat_dir#readme",
   "devDependencies": {
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-cache": "^0.4.5",
