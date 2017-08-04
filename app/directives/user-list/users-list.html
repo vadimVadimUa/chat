@@ -18,6 +18,7 @@
                           ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.userId}">
                 <h6>{{ user.userName }}</h6>
                 <span flex></span>
+                <span>{{uers.countUnread}}</span>
                 <span class="user-status"
                       ng-class="user.status === 0 ? 'active-status' : ( user.status === 1 ? 'not-here-status' : 'not-active')"></span>
             </md-list-item>
@@ -29,7 +30,7 @@
         <div class="totalUsers" flex="50">Total: {{vm.users.length}}</div>
     </div>
     <div class="helper" layout="row" layout-align="center">
-        <span ng-class="!vm.isConnected?'warning-state':''">{{vm.isConnected?'Connected':'Not connected!'}}</span>
+        <!--<span ng-class="!vm.isConnected?'warning-state':''">{{vm.isConnected?'Connected':'Not connected!'}}</span>-->
     </div>
 
 </div>
