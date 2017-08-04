@@ -7,8 +7,10 @@
     chatData.$inject = ['url', '$rootScope','chatSocket'];
     function chatData( url, $rootScope, chatSocket) {
 
+        //connection status to backend
+        $rootScope.isConnected = false;
         var vm = this;
-
+        var _isConnected = false;
         vm.userList = [];
        // function for work with the backend, message - object or array
         vm.func = {
@@ -18,17 +20,25 @@
             reply: function (message) {},
             chat:function (message) {},
             changeStatusUser:function (message) {},
-            //---------------------------------------do not change, only call
+            connectionError:function (message) {},
+            //-----------------do not change, only call
             sendMessage : function(obj_message) {
-                    chatSocket.send("/app/chat.private", {},obj_message);
+                    console.log(obj_message);
+                    chatSocket.send("/app/private", {},angular.toJson(obj_message));
             },
+            // status 0 - 1 - 2
             changeStatusSelf : function(status) {
                 chatSocket.send("/app/change."+status, {},{});
+                console.log('set status :'+status);
             },
             initStompClient : function(){
                 initStompClient();
-            }
+            },
+            //property
+            connectedStatus: _isConnected
         };
+
+
 
         var initStompClient = function() {
             chatSocket.init(url.socket);
@@ -36,72 +46,46 @@
 
             chatSocket.connect(function(frame) {
 
+                $rootScope.isConnected = true;
+                _isConnected = true;
                 // $scope.username = frame.headers['user-name'];
 
                 chatSocket.subscribe("/topic.login", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.login(message.body);
+                    vm.func.login(JSON.parse(message.body));
                 });
 
                 chatSocket.subscribe("/topic.logout", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.logout(message.body);
+                    vm.func.logout(JSON.parse(message.body));
                 });
 
-                chatSocket.subscribe("/topic/chat."+$rootScope.user.compId, function(message) {
+                chatSocket.subscribe("/app/topic/chat."+$rootScope.user.compId, function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.chat(message.body);
+                    vm.func.chat(JSON.parse(message.body));
                 });
 
                 chatSocket.subscribe("/queue/reply/"+$rootScope.user.compId+"/"+$rootScope.user.userId, function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.reply(message.body);
+                    vm.func.reply(JSON.parse(message.body));
                 });
 
 
                 chatSocket.subscribe("/topic/public.changedStatus", function(message) {
                     // $scope.participants = JSON.parse(message.body);
-                    vm.func.changeStatusUser(message.body);
+                    vm.func.changeStatusUser(JSON.parse(message.body));
                 })
 
             }, function(error) {
-                console.log("ERRRRRORRRR",error);
+                console.log("Connection error with server, reconnect after 10sec...",error);
+                vm.func.connectionError(error);
+                setTimeout(initStompClient, 10000);
+                $rootScope.isConnected = _isConnected = false;
             });
         };
-
-
+        //once initializate after inject for some controller
+        initStompClient();
 
         return vm.func;
-
-        //
-        // var userStateCollection = {};
-        // //$timeout(changeUserStatus, 3000);
-        //
-        // function changeUserStatus() {
-        //     userStateCollection = {id: 3, status: '1'};
-        //     $rootScope.$broadcast("updatesUserStatus");
-        // }
-        //
-        //
-        // var userCollection = [];
-        // userCollection = [
-        //     {id: 1, name: 'Ivan', status: '3', newMessage: false},
-        //     {id: 2, name: 'Oleg', status: '2', newMessage: true},
-        //     {id: 3, name: 'Kosty', status: '3', newMessage: false},
-        //     {id: 4, name: 'Ivan', status: '1', newMessage: false},
-        //     {id: 5, name: 'Ivan', status: '3', newMessage: true},
-        //     {id: 7, name: 'Kosty', status: '3', newMessage: false},
-        //     {id: 8, name: 'Ivan', status: '3', newMessage: false},
-        //     {id: 10, name: 'Kosty', status: '3', newMessage: false},
-        //     {id: 11, name: 'Ivan', status: '3', newMessage: false},
-        //     {id: 13, name: 'Kosty', status: '3', newMessage: false}
-        // ];
-        //
-        //
-        // return {
-        //     getUsers: userCollection ,
-        //     getUserStateCollection: function (){return userStateCollection}
-        // };
-
     }
 })();

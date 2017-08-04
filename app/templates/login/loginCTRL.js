@@ -20,7 +20,11 @@
         };
 
         function Login() {
-
+            $rootScope.user = { //!!!!!!for test
+                userId: 4,
+                status: 0
+            };
+            //-------------------------------------------
             if (vm.UserData.username && vm.UserData.userid && vm.UserData.company) {
                 // var url = $state.href('chat');
                 // $window.open(url, "C-Sharpcorner", "width=700,height=500");
@@ -28,13 +32,13 @@
                 console.log(vm.UserData);
                 requestFactory.requestPost('http://localhost:8080/'+vm.url.login, vm.UserData)
                     .then(function (gooddata) {
-                        console.log(gooddata);
+                        console.log("recive from backend:",gooddata);
                         $rootScope.user = gooddata.data;
                         $state.go('chat');
                         // var url = $state.href('chat');
                         // $window.open(url, "C-Sharpcorner", "width=700,height=500");
                     }, function (errordata) {
-                    console.log(errordata);
+                    console.log('error from backend:',errordata);
                     vm.loginError = 'User data does not match';
                 });
             }

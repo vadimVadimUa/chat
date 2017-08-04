@@ -8,28 +8,39 @@
     usersListCtrl.inject = ['$scope', 'webSocketRequest', '$rootScope','chatSocket','chatData'];
 
     function usersListCtrl($scope, webSocketRequest, $rootScope,chatData) {
-        chatData.initStompClient();
+
         var vm = this;
-        vm.selectedUser = 0;
-        vm.TotalUsers = 10;
+        //default get connection status from $rootScope.isConnected
+        vm.isConnected = $rootScope.isConnected;
+        vm.selectedUser = undefined;
+        vm.TotalUsers = 0;
         vm.searchText = '';
         vm.selectUser = selectUser;
         vm.statusChange = statusChange;
-        //получение всех юзеров
+        //temp user if not data
         vm.users = [
             {
-                userId:13,
-                userName: "test",
-                compId: "0013",
-                status:1
+                userId:0,
+                userName: 'test',
+                compId: '0013',
+                status:0
             },
             {
-                userId:13,
-                userName: "test2",
-                compId: "0013",
+                userId:1,
+                userName: 'test2',
+                compId: '0013',
                 status:1
             }
+            ,
+            {
+                userId:4,
+                userName: 'test4',
+                compId: '0013',
+                status:2
+            }
         ];
+
+
 
         chatData.login = function(message){
             console.log("RESIVE 'login' event:",message);
@@ -42,12 +53,24 @@
         };
         chatData.chat = function (users) {
             console.log("RESIVE 'chat' event:",users);
-            vm.users = users;
+            vm.users = users.filter(function (item) {
+               return item.userId !== $rootScope.user.userId;
+            });
         };
-        chatData.changeStatus =function (message) {
-            console.log("RESIVE 'changeStatus' event:",message);
+        chatData.changeStatus = function (usr) {
+            console.log("RESIVE 'changeStatus' event:",usr);
+                for(var i = 0; i < vm.users.length; i++) {
+                    if (vm.users[i].userId === usr.userId) {
+                        console.log('fuund');
+                        vm.users[i].status = usr.status;
+                        break;
+                    }
+                }
         };
 
+        chatData.connectionError = function (message) {
+            vm.isConnected = false;
+        };
         $rootScope.$on("updatesUserStatus",function(){
             var res = webSocketRequest.getUserStateCollection();
             console.log(res);
@@ -58,21 +81,17 @@
             }
         });
 
-        vm.data = {
-            selected: '1',
+        vm.statusData = {
+            selected: '0',
             availableOptions: [
-                {id: '1', status: 'online'},
-                {id: '2', status: 'not here'},
-                {id: '3', status: 'offline'}
+                {id: '0', status: 'online'},
+                {id: '1', status: 'not here'},
+                {id: '2', status: 'offline'}
             ]
         };
 
-       chatData.login = function(data){
-           console.log(data);
-       }
-
         function selectUser(user) {
-            vm.selectedUser = user.id;
+            vm.selectedUser = user.userId;
             user.newMessage = false;
             $scope.$emit('selectUser', {user: user});
         }
@@ -87,7 +106,7 @@
         //     }
         // }
         function statusChange(){
-            console.log( vm.data.selected);
+           chatData.changeStatusSelf(vm.statusData.selected);
         }
     }
 })();

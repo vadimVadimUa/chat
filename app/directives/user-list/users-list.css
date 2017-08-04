@@ -90,7 +90,7 @@
 }
 
 .users-container {
-    height: calc(100vh - 115px);
+    height: calc(100vh - 135px);
     overflow-y: auto;
     background: #EBEBEB;
     color: #444;
@@ -191,6 +191,10 @@
 
 .helper {
     min-width: 170px;
+}
+
+.warning-state {
+    color: #ff3d00;;
 }
 
 /* -------------------- Colors: Background */

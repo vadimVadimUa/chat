@@ -8,13 +8,13 @@
         </div>
 
         <div class="message-container" ng-if="!vm.showLogo" layout="column" layout-align="end stretch">
-            <div flex class="message-box" scroll-glue="{vm.scroll}">
+            <div flex class="message-box" scroll-glue="{{vm.scroll}}">
                 <md-list>
                     <section class="container-more-message" layout="row" layout-sm="column" layout-align="center center"
                              layout-wrap>
                         <md-button md-no-ink class="md-primary" ng-click="vm.loadMoreMessage()">Load more</md-button>
                     </section>
-                    <md-list-item class="md-2-line list-messages" ng-repeat="message in vm.messages">
+                    <md-list-item class="md-2-line list-messages" ng-repeat="message in vm.messages track by $index">
                         <messages></messages>
                     </md-list-item>
                 </md-list>
