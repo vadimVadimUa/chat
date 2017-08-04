@@ -9,6 +9,9 @@
                 var vm = this;
                 // key is user id
                 var messageArr = [];
+                var unreadMessage = [];
+
+
                 putMessageByUserId(0,{
                     id: 13,
                     to: 4,
@@ -30,6 +33,14 @@
                     userFlag: false
                 });
 
+                function getUnreadByUserId(userId) {
+                    return unreadMessage[userId] || 0;
+                }
+
+                function setUnreadByUserId(userId,count) {
+                        vm.service.setUnreadFunct(userId,count);
+                        unreadMessage[userId]=count;
+                }
 
                 function getMessageByUserId(userId){
                     if(typeof messageArr[userId] === 'undefined'){
@@ -46,8 +57,11 @@
 
                 vm.service = {
                     getMessageByUserId : getMessageByUserId,
-                    putMessageByUserId : putMessageByUserId
-                };
+                    putMessageByUserId : putMessageByUserId,
+                    getUnreadByUserId: getUnreadByUserId,
+                    setUnreadByUserId:  setUnreadByUserId,
+                    setUnreadFunct : function (count) {},
+                }
 
                 return vm.service
             }

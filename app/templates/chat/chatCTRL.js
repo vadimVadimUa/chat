@@ -43,6 +43,21 @@
             }
         ];
 
+        setInterval(function () {
+            {
+               processMessages( [{
+                id: 13,
+                to: 4,
+                from: 1,
+                content: "11111",
+                companyId: "00013",
+                delivered: false,
+                date: 1500908062800,
+                userFlag: false
+            }])
+            }},3000
+        )
+
         chatData.reply = function (message) {
             console.log("RESIVE 'reply' event:",message);
             messagesData.putMessageByUserId(message.from, message);

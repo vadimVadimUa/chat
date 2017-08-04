@@ -5,9 +5,9 @@
         .module('app')
         .controller('usersListCtrl', usersListCtrl);
 
-    usersListCtrl.inject = ['$scope', 'webSocketRequest', '$rootScope','chatSocket','chatData'];
+    usersListCtrl.inject = ['$scope', 'webSocketRequest', '$rootScope','chatSocket','chatData','messagesData'];
 
-    function usersListCtrl($scope, webSocketRequest, $rootScope,chatData) {
+    function usersListCtrl($scope, webSocketRequest, $rootScope,chatData,messagesData) {
 
         var vm = this;
         //default get connection status from $rootScope.isConnected
@@ -39,7 +39,18 @@
                 status:2
             }
         ];
-
+        //
+        // messagesData.setUnreadByUserId(0,1);
+        // messagesData.setUnreadByUserId(1,1);
+        //
+        // messagesData.setUnreadByUserId = function(userId,count){
+        //     console.log("set unread");
+        //     vm.users.forEach(function (p1, p2, p3) {
+        //         if(p1.userId == userId) {
+        //             p1.count = count;
+        //         }
+        //     })
+        // };
 
 
         chatData.login = function(message){
@@ -71,15 +82,15 @@
         chatData.connectionError = function (message) {
             vm.isConnected = false;
         };
-        $rootScope.$on("updatesUserStatus",function(){
-            var res = webSocketRequest.getUserStateCollection();
-            console.log(res);
-            for(var i = 0; i< vm.users.length; i++){
-                if(vm.users[i].id === res.id){
-                    vm.users[i].status = res.status;
-                }
-            }
-        });
+        // $rootScope.$on("updatesUserStatus",function(){
+        //     var res = webSocketRequest.getUserStateCollection();
+        //     console.log(res);
+        //     for(var i = 0; i< vm.users.length; i++){
+        //         if(vm.users[i].id === res.id){
+        //             vm.users[i].status = res.status;
+        //         }
+        //     }
+        // });
 
         vm.statusData = {
             selected: '0',
