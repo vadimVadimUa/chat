@@ -9,13 +9,6 @@
     ChatCtrl.$inject = ['$scope', '$rootScope', 'webSocketRequest', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData'];
     function ChatCtrl($scope, $rootScope, webSocketRequest, requestFactory, $interval, url, chatData, messagesData,usersData) {
 
-        $rootScope.user = { //!!!!!!for test
-            userId: 5,
-            status: 0,
-            compId: '00013',
-            userName: 'dd3'
-        };
-
         var vm = this;
         vm.currentUser = undefined;
 

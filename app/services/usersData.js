@@ -4,8 +4,8 @@
     angular
         .module('app')
         .service('usersData', usersData);
-    usersData.$inject = ['$rootScope','chatData','messagesData','requestFactory'];
-    function usersData($rootScope,chatData,messagesData,requestFactory) {
+    usersData.$inject = ['$rootScope','chatData','messagesData','requestFactory','url'];
+    function usersData($rootScope,chatData,messagesData,requestFactory,url) {
         var vm = this;
 
         vm.users = [
@@ -13,23 +13,25 @@
                 userId:0,
                 userName: 'test',
                 compId: '0013',
-                status:0
+                status:0,
+                countUnread: []
             },
             {
                 userId:1,
                 userName: 'test2',
                 compId: '0013',
-                status:1
+                status:1,
+                countUnread: []
             }
             ,
             {
-                userId:4,
+                userId:2,
                 userName: 'test4',
                 compId: '0013',
-                status:2
+                status:2,
+                countUnread: []
             }
         ];
-
 
 
 
