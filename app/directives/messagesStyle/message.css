@@ -1,10 +1,11 @@
 
 .message-text{
     margin: 0 10px !important;
-    padding: 0px;
     border-radius: 5px;
     padding: 10px;
-    display: inline-block;
+    display: block;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 .containerText{
  position: relative;

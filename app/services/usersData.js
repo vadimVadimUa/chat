@@ -8,7 +8,7 @@
     function usersData($rootScope,chatData,messagesData,requestFactory) {
         var vm = this;
 
-        vm.usersS = [
+        vm.users = [
             {
                 userId:0,
                 userName: 'test',
@@ -30,26 +30,24 @@
             }
         ];
 
-        setTimeout(function () {
-            vm.usersS.forEach(function (item, key, array) {
-                if (item.userId != $rootScope.user.userId) {
-                    item.countUnread = [];
-                    vm.users[item.userId] = item;
-                }
-            });
-            $rootScope.$evalAsync(true);
-        },1600);
 
-        chatData.login = function(message){
-            console.log("RESIVE 'login' event:",message);
+
+
+        chatData.login = function(user){
+            console.log("RESIVE 'login' event:",user);
+            $rootScope.$evalAsync(
+                vm.users[user.userId]=user );
         };
-        chatData.logout = function (message) {
-            console.log("RESIVE 'logout' event:",message);
+        chatData.logout = function (user) {
+            console.log("RESIVE 'logout' event:",user);
+            $rootScope.$evalAsync(
+                vm.users[user.userId]=user );
         };
 
         chatData.changeStatus = function (usr) {
             console.log("RESIVE 'changeStatus' event:",usr);
-            $rootScope.$evalAsync(vm.users[usr.userId].status = usr.status);
+            $rootScope.$evalAsync(
+                vm.users[usr.userId].status = usr.status);
         };
 
         chatData.chat = function (users) {
@@ -86,6 +84,6 @@
             });
         }
 
-        this.users = [];
+        // this.users = [];
     }
 })();

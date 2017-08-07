@@ -29,9 +29,6 @@
         <div flex="50">Online:  {{(vm.users|filter:{status : 0}).length}} </div>
         <div class="totalUsers" flex="50">Total: {{(vm.users|filter: {userId}).length+1}}</div>
     </div>
-    <div class="helper" layout="row" layout-align="center">
-        <!--<span ng-class="!vm.isConnected?'warning-state':''">{{vm.isConnected?'Connected':'Not connected!'}}</span>-->
-    </div>
 
 </div>
 
