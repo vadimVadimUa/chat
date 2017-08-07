@@ -7,15 +7,13 @@
 
 
     function url() {
-        var server = "http://192.168.1.105:9080/WSChatWeb/";
+        var server = "http://localhost:9080/WSChatWeb/";
         var url = {
             login: server + 'login_custom',
             socket: server+'wschat',
-                                    // /messages/unread/{company}/{userId}
-            messages_unread:server+'/messages/unread/'
-
-            // user: server + 'user',
-            // usersState: server + "usersState"
+            messages_unread: server+'messages/unread/',
+            message_read:server+'/message/read',
+            messages_read:server+'/messages/read'
         };
 
         return url;

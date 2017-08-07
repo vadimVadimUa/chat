@@ -90,7 +90,7 @@
 }
 
 .users-container {
-    height: calc(100vh - 135px);
+    height: calc(100vh - 115px);
     overflow-y: auto;
     background: #EBEBEB;
     color: #444;
@@ -206,6 +206,9 @@
     background: rgba(202, 225, 68, 0.3);
 }
 
+.count-unread {
+    margin-right:10px;
+}
 
 
 

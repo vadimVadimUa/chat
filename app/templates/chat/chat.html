@@ -14,7 +14,7 @@
                              layout-wrap>
                         <md-button md-no-ink class="md-primary" ng-click="vm.loadMoreMessage()">Load more</md-button>
                     </section>
-                    <md-list-item class="md-2-line list-messages" ng-repeat="message in vm.messages track by $index">
+                    <md-list-item class="md-2-line list-messages" ng-repeat="message in vm.messages | orderBy:'date' track by $index ">
                         <messages></messages>
                     </md-list-item>
                 </md-list>

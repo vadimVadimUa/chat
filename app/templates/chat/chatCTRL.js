@@ -6,11 +6,18 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope','$rootScope', 'webSocketRequest', 'requestFactory','$interval','url','chatData','messagesData'];
-    function ChatCtrl($scope,$rootScope, webSocketRequest, requestFactory,  $interval, url,chatData,messagesData) {
+    ChatCtrl.$inject = ['$scope', '$rootScope', 'webSocketRequest', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData'];
+    function ChatCtrl($scope, $rootScope, webSocketRequest, requestFactory, $interval, url, chatData, messagesData,usersData) {
+
+        $rootScope.user = { //!!!!!!for test
+            userId: 5,
+            status: 0,
+            compId: '00013',
+            userName: 'dd3'
+        };
 
         var vm = this;
-        var currentUser;
+        vm.currentUser = undefined;
 
         vm.showLogo = true;
         //true = скрол вниз false = скрол вверх
@@ -20,59 +27,35 @@
 
         vm.newMessage = "";
 
-        vm.messages = [
-            {
-                id: 12,
-                to: 4,
-                from: 0,
-                content: "33333",
-                companyId: "00013",
-                delivered: false,
-                date: 1500908062800,
-                userFlag: true
-            },
-            {
-                id: 13,
-                to: 4,
-                from: 1,
-                content: "11111",
-                companyId: "00013",
-                delivered: false,
-                date: 1500908062800,
-                userFlag: false
-            }
-        ];
+        vm.messages = [];
+
 
         chatData.reply = function (message) {
-            console.log("RESIVE 'reply' event:",message);
-            $scope.$apply(function () {
+            console.log("RESIVE 'reply' event:", message);
+            $rootScope.$evalAsync(function () {
+                message.userFlag = false;
                 messagesData.putMessageByUserId(message.from, message);
-            })
-
+                if(vm.currentUser !== undefined && message.from === vm.currentUser.userId){
+                    sendRead([message.id]);
+                } else {
+                    usersData.users[message.from].countUnread.push(message.id);
+                }
+            });
         };
 
-        requestFactory.requestGet(url.messages_unread+$rootScope.user.compId+'/'+$rootScope.user.userId)
-            .then(function (gooddata) {
-                console.log("recive unread message:",gooddata);
-                processMessages(gooddata.data);
-            }, function (errordata) {
-                console.log('error get unread message:',errordata);
-            });
-
-
-        function processMessages(messagesArr) {
-            if(!Array.isArray(messagesArr)) return;
-            messagesArr.forEach(function(item, key){
-                item.userFlag = false;
-                messagesData.putMessageByUserId(item.from, item);
-            });
+        function sendRead(idArray) {
+            console.log("ID ARRRY : ", idArray);
+            requestFactory.requestPostData(url.messages_read, idArray)
+                .then(function (gooddata) {
+                }, function (errordata) {
+                });
         }
 
         function sentMessage() {
-            if(vm.newMessage === '')return;
+            if (vm.newMessage === '')return;
             var sendMessage = {
                 id: 0,
-                to: currentUser.userId,
+                to: vm.currentUser.userId,
                 from: $rootScope.user.userId,
                 content: vm.newMessage,
                 companyId: $rootScope.user.compId,
@@ -80,21 +63,25 @@
                 date: new Date().getTime()
             };
             sendMessage.userFlag = true;
-            // vm.messages.push(sendMessage);
-            messagesData.putMessageByUserId(currentUser.userId, sendMessage);
+            messagesData.putMessageByUserId(vm.currentUser.userId, sendMessage);
             chatData.sendMessage(sendMessage);
             console.log(sendMessage);
             vm.newMessage = '';
         }
-        function loadMoreMessage(){
+
+        function loadMoreMessage() {
             console.log('load')
         }
-        $scope.$on('selectUser', function(obj, data){
-            console.log('user selected',data.user);
-            currentUser = data.user;
+
+        $scope.$on('selectUser', function (obj, data) {
+            console.log('user selected', data.user);
+            vm.currentUser = data.user;
             vm.showLogo = false;
             //get reference array (vm.messages get reference array in messagData;
             vm.messages = messagesData.getMessageByUserId(data.user.userId);
+            var tempIdMes = [];
+            sendRead(vm.currentUser.countUnread);
+            vm.currentUser.countUnread = [];
             console.log(vm.messages);
             //vm.messages  = requestFactory.request(null,null ,data);
         });

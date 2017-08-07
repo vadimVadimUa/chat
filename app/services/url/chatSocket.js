@@ -18,18 +18,18 @@
                 connect: function(successCallback, errorCallback) {
 
                     stompClient.connect({}, function(frame) {
-                        $rootScope.$apply(function() {
+                        $rootScope.$evalAsync(function() {
                             successCallback(frame);
                         });
                     }, function(error) {
-                        $rootScope.$apply(function(){
+                        $rootScope.$evalAsync(function(){
                             errorCallback(error);
                         });
                     });
                 },
                 subscribe : function(destination, callback) {
                     stompClient.subscribe(destination, function(message) {
-                        $rootScope.$apply(function(){
+                        $rootScope.$evalAsync(function(){
                             callback(message);
                         });
                     });

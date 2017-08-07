@@ -79,7 +79,7 @@
             }, function(error) {
                 console.log("Connection error with server, reconnect after 10sec...",error);
                 vm.func.connectionError(error);
-                setTimeout(initStompClient, 10000);
+                setTimeout(initStompClient, 20000);
                 $rootScope.isConnected = _isConnected = false;
             });
         };
