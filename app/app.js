@@ -10,7 +10,16 @@
         }]);
 
     angular.module('app').run(['$rootScope','$state',function ($rootScope,$state) {
-        if($rootScope.user == undefined) $state.go('login');
-    }])
+        $rootScope.user =
+        {
+            userId: 3,
+            userName: 'gggggg',
+            status: '0',
+            compId:3
+        };
+        if($rootScope.user === undefined) {
+            $state.go('login');
+        }
+    }]);
 })();
 

@@ -8,7 +8,14 @@
     function usersData($rootScope,chatData,messagesData,requestFactory,url) {
         var vm = this;
 
-        vm.users = [];
+        vm.users = [
+                { userId: 1,
+                    userName: 'fffgggkkkkkkkkkkkkkkkk;;;;;;;;;;;;ggg',
+                    status: '0',
+                    compId:3,
+                    countUnread: [0]
+            }
+        ];
 
         chatData.login = function(user){
             console.log("RESIVE 'login' event:",user);

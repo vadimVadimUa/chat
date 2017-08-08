@@ -96,9 +96,14 @@
     color: #444;
 }
 
-.users-container h6 {
+.users-container .user-name {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
+    -ms-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 83%;
 }
 
 .users-container md-list-item {
@@ -136,11 +141,16 @@
 
 /*end Скролбар*/
 
+.users-container .count-unread {
+    margin-left:10px;
+}
+
 /*Статусы пользователей */
 .user-status {
     border-radius: 50%;
     width: 10px;
     height: 10px;
+    margin-right:10px;
 }
 
 /*в сети*/
@@ -204,10 +214,6 @@
 
 .itemUser {
     background: rgba(202, 225, 68, 0.3);
-}
-
-.count-unread {
-    margin-right:10px;
 }
 
 

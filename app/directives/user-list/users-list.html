@@ -8,25 +8,28 @@
         <select ng-change="vm.statusChange()" name="repeatSelect" id="repeatSelect" ng-model="vm.statusData.selected"
                 class="btn-selected"
                 ng-class="vm.statusData.selected == 0 ? 'green' : (vm.statusData.selected == 1 ? 'yellow' : 'red')">
-            <option ng-repeat="option in vm.statusData.availableOptions" value="{{option.id}}">{{option.status}}</option>
+            <option ng-repeat="option in vm.statusData.availableOptions" value="{{option.id}}">{{option.status}}
+            </option>
         </select>
     </div>
 
     <md-content class="users-container">
         <md-list flex>
-            <md-list-item ng-repeat="user in vm.users  | orderBy:'status'  | filter: { userName: vm.searchText } track by $index" ng-click="vm.selectUser(user)"
-                          ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.userId}">
-                <h6>{{ user.userName }}</h6>
-                <span flex></span>
-                <span class="count-unread" ng-if="user.countUnread.length>0">+{{user.countUnread.length}}</span>
+            <md-list-item
+                    ng-repeat="user in vm.users  | orderBy:'status'  | filter: { userName: vm.searchText } track by $index"
+                    ng-click="vm.selectUser(user)"
+                    ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.userId}">
                 <span class="user-status"
                       ng-class="user.status == '0' ? 'active-status' : ( user.status == '1' ? 'not-here-status' : 'not-active')"></span>
+                <span class="user-name">{{ user.userName }}</span>
+                <span flex></span>
+                <span class="count-unread" ng-if="user.countUnread.length>0">+{{user.countUnread.length}}</span>
             </md-list-item>
         </md-list>
     </md-content>
 
     <div class="helper" layout="row" layout-align="center">
-        <div flex="50">Online:  {{(vm.users|filter:{status : 0}).length}} </div>
+        <div flex="50">Online: {{(vm.users|filter:{status : 0}).length}}</div>
         <div class="totalUsers" flex="50">Total: {{(vm.users|filter: {userId}).length+1}}</div>
     </div>
 
