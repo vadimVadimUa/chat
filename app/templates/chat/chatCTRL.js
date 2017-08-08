@@ -67,7 +67,7 @@
         }
 
         function loadMoreMessage() {
-            console.log('load')
+            console.log('load');
         }
 
         $scope.$on('selectUser', function (obj, data) {
@@ -75,11 +75,12 @@
             vm.currentUser = data.user;
             vm.showLogo = false;
             //get reference array (vm.messages get reference array in messagData;
-            vm.messages = messagesData.getMessageByUserId(data.user.userId);
-            var tempIdMes = [];
+            $rootScope.$evalAsync(function(){
+                vm.messages = messagesData.getMessageByUserId(data.user.userId);
+                console.log('SHOW USER MESSAGES :',vm.messages);
+            });
             if(vm.currentUser.countUnread.length > 0)sendRead(vm.currentUser.countUnread);
             vm.currentUser.countUnread = [];
-            console.log(vm.messages);
             //vm.messages  = requestFactory.request(null,null ,data);
         });
     }
