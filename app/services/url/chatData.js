@@ -4,9 +4,9 @@
     angular
         .module('app')
         .factory('chatData', chatData);
-    chatData.$inject = ['url', '$rootScope','chatSocket'];
-    function chatData( url, $rootScope, chatSocket) {
-
+    chatData.$inject = ['url', '$rootScope','chatSocket','$state','$timeout'];
+    function chatData( url, $rootScope, chatSocket, $state,$timeout) {
+        if($rootScope.user === undefined) $state.go('login');
         //connection status to backend
         $rootScope.isConnected = false;
         var vm = this;
@@ -79,7 +79,7 @@
             }, function(error) {
                 console.log("Connection error with server, reconnect after 10sec...",error);
                 vm.func.connectionError(error);
-                setTimeout(initStompClient, 20000);
+                $timeout(initStompClient, 10000);
                 $rootScope.isConnected = _isConnected = false;
             });
         };

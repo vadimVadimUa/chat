@@ -1,13 +1,12 @@
 (function () {
     'use strict';
 
-
     angular
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope', '$rootScope', 'webSocketRequest', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData'];
-    function ChatCtrl($scope, $rootScope, webSocketRequest, requestFactory, $interval, url, chatData, messagesData,usersData) {
+    ChatCtrl.$inject = ['$scope', '$rootScope', 'webSocketRequest', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData','$state'];
+    function ChatCtrl($scope, $rootScope, webSocketRequest, requestFactory, $interval, url, chatData, messagesData,usersData,$state) {
 
         var vm = this;
         vm.currentUser = undefined;
@@ -22,7 +21,6 @@
 
         vm.messages = [];
 
-
         chatData.reply = function (message) {
             console.log("RESIVE 'reply' event:", message);
             $rootScope.$evalAsync(function () {
@@ -31,7 +29,12 @@
                 if(vm.currentUser !== undefined && message.from === vm.currentUser.userId){
                     sendRead([message.id]);
                 } else {
-                    usersData.users[message.from].countUnread.push(message.id);
+                    if(Array.isArray( usersData.users[message.from].countUnread)){
+                        usersData.users[message.from].countUnread.push(message.id);
+                    } else {
+                        usersData.users[message.from].countUnread = [];
+                        usersData.users[message.from].countUnread.push(message.id);
+                    }
                 }
             });
         };
@@ -55,9 +58,10 @@
                 delivered: false,
                 date: new Date().getTime()
             };
-            sendMessage.userFlag = true;
+
             messagesData.putMessageByUserId(vm.currentUser.userId, sendMessage);
             chatData.sendMessage(sendMessage);
+            sendMessage.userFlag = true;
             console.log(sendMessage);
             vm.newMessage = '';
         }
@@ -73,7 +77,7 @@
             //get reference array (vm.messages get reference array in messagData;
             vm.messages = messagesData.getMessageByUserId(data.user.userId);
             var tempIdMes = [];
-            sendRead(vm.currentUser.countUnread);
+            if(vm.currentUser.countUnread.length > 0)sendRead(vm.currentUser.countUnread);
             vm.currentUser.countUnread = [];
             console.log(vm.messages);
             //vm.messages  = requestFactory.request(null,null ,data);

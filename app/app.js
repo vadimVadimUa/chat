@@ -7,6 +7,10 @@
         .config(['$httpProvider',function ($httpProvider) {
             //$httpProvider.defaults.useXDomain = true;
             $httpProvider.defaults.withCredentials = true;
-        }])
+        }]);
+
+    angular.module('app').run(['$rootScope','$state',function ($rootScope,$state) {
+        if($rootScope.user == undefined) $state.go('login');
+    }])
 })();
 

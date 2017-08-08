@@ -26,7 +26,7 @@
         };
 
         vm.statusData = {
-            selected: '0',
+            selected: $rootScope.user.status,
             availableOptions: [
                 {id: '0', status: 'online'},
                 {id: '1', status: 'not here'},
