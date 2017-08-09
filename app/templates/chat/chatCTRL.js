@@ -5,9 +5,11 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData','$state'];
-    function ChatCtrl($scope, $rootScope, requestFactory, $interval, url, chatData, messagesData,usersData,$state) {
-
+    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData', 'usersData', '$state'];
+    function ChatCtrl($scope, $rootScope, requestFactory, $interval, url, chatData, messagesData, usersData, $state) {
+        if ($rootScope.user === undefined) {
+            $state.go('login');
+        }
         var vm = this;
         vm.currentUser = undefined;
 
@@ -26,10 +28,10 @@
             $rootScope.$evalAsync(function () {
                 message.userFlag = false;
                 messagesData.putMessageByUserId(message.from, message);
-                if(vm.currentUser !== undefined && message.from === vm.currentUser.userId){
+                if (vm.currentUser !== undefined && message.from === vm.currentUser.userId) {
                     sendRead([message.id]);
                 } else {
-                    if(Array.isArray( usersData.users[message.from].countUnread)){
+                    if (Array.isArray(usersData.users[message.from].countUnread)) {
                         usersData.users[message.from].countUnread.push(message.id);
                     } else {
                         usersData.users[message.from].countUnread = [];
@@ -75,11 +77,11 @@
             vm.currentUser = data.user;
             vm.showLogo = false;
             //get reference array (vm.messages get reference array in messagData;
-            $rootScope.$evalAsync(function(){
+            $rootScope.$evalAsync(function () {
                 vm.messages = messagesData.getMessageByUserId(data.user.userId);
-                console.log('SHOW USER MESSAGES :',vm.messages);
+                console.log('SHOW USER MESSAGES :', vm.messages);
             });
-            if(vm.currentUser.countUnread.length > 0)sendRead(vm.currentUser.countUnread);
+            if (vm.currentUser.countUnread.length > 0) sendRead(vm.currentUser.countUnread);
             vm.currentUser.countUnread = [];
             //vm.messages  = requestFactory.request(null,null ,data);
         });
