@@ -5,9 +5,9 @@
         .module('app')
         .controller('usersListCtrl', usersListCtrl);
 
-    usersListCtrl.inject = ['$scope', 'webSocketRequest', '$rootScope','chatSocket','chatData','messagesData','requestFactory','url','usersData'];
+    usersListCtrl.inject = ['$scope', '$rootScope','chatSocket','chatData','messagesData','requestFactory','url','usersData'];
 
-    function usersListCtrl($scope, webSocketRequest, $rootScope,chatData,messagesData,requestFactory,url,usersData) {
+    function usersListCtrl($scope,  $rootScope,chatData,messagesData,requestFactory,url,usersData) {
 
         var vm = this;
         //default get connection status from $rootScope.isConnected

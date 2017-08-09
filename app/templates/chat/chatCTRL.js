@@ -5,8 +5,8 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope', '$rootScope', 'webSocketRequest', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData','$state'];
-    function ChatCtrl($scope, $rootScope, webSocketRequest, requestFactory, $interval, url, chatData, messagesData,usersData,$state) {
+    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData','usersData','$state'];
+    function ChatCtrl($scope, $rootScope, requestFactory, $interval, url, chatData, messagesData,usersData,$state) {
 
         var vm = this;
         vm.currentUser = undefined;
