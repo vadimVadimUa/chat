@@ -17,7 +17,6 @@
             $rootScope.$broadcast("updatesUserStatus");
         }
 
-
          var userCollection = [];
         userCollection = [
             {id: 1, name: 'Ivan', status: '3', newMessage: false},

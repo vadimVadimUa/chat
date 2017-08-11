@@ -74,7 +74,7 @@
                 chatSocket.subscribe("/topic/public.changedStatus", function(message) {
                     // $scope.participants = JSON.parse(message.body);
                     vm.func.changeStatusUser(JSON.parse(message.body));
-                })
+                });
 
             }, function(error) {
                 console.log("Connection error with server, reconnect after 10sec...",error);
@@ -84,7 +84,7 @@
             });
         };
         //once initializate after inject for some controller
-        initStompClient();
+        // initStompClient();
 
         return vm.func;
     }

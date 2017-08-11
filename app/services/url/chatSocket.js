@@ -36,11 +36,12 @@
                 },
                 send: function(destination, headers, object) {
                     stompClient.send(destination, headers, object);
+                },
+                disconnect: function () {
+                    stompClient.disconnect();
                 }
             };
-
             return wrappedSocket;
-
-        };
+        }
 
 })();

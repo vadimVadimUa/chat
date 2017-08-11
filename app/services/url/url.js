@@ -11,9 +11,10 @@
         var url = {
             login: server + 'login_custom',
             socket: '/WSChatWeb/wschat',
-            messages_unread: server+'messages/unread/',
-            message_read:server+'message/read',
-            messages_read:server+'messages/read'
+            messages_unread: server+'messages/unread',    //  /{companyId}/{userId}   -GET
+            message_read:server+'message', //   /{compId}/read   -POST
+            messages_read:server+'messages', //   /{compId}/read   -POST
+            messages_history: server+'messages'  //  /{companyId}/history/{from}/{to}/{lastMessageId}   -GET
         };
         return url;
     }

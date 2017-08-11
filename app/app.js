@@ -10,6 +10,13 @@
         }]);
 
     angular.module('app').run(['$rootScope','$state',function ($rootScope,$state) {
+        // $rootScope.user = {
+        //     userId : 3,
+        //     userName : 'robert',
+        //     status: '0',
+        //     unreadCount: [0],
+        //     compId: "00013"
+        // };
         if($rootScope.user === undefined) {
             $state.go('login');
         }

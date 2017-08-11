@@ -5,11 +5,12 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', '$interval', 'url', 'chatData', 'messagesData', 'usersData', '$state'];
-    function ChatCtrl($scope, $rootScope, requestFactory, $interval, url, chatData, messagesData, usersData, $state) {
+    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', 'url', 'chatData', 'messagesData', 'usersData', '$state'];
+    function ChatCtrl($scope, $rootScope, requestFactory,  url, chatData, messagesData, usersData, $state) {
         if ($rootScope.user === undefined) {
             $state.go('login');
         }
+        chatData.initStompClient();
         var vm = this;
         vm.currentUser = undefined;
 
@@ -24,7 +25,7 @@
         vm.messages = [];
 
         chatData.reply = function (message) {
-            console.log("RESIVE 'reply' event:", message);
+            console.log("RESIVE 'reply' event : ", message);
             $rootScope.$evalAsync(function () {
                 message.userFlag = false;
                 messagesData.putMessageByUserId(message.from, message);
@@ -43,14 +44,36 @@
 
         function sendRead(idArray) {
             console.log("ID ARRRY : ", idArray);
-            requestFactory.requestPostData(url.messages_read, idArray)
+            requestFactory.requestPostData(url.messages_read+'/'+$rootScope.user.compId+'/read', idArray)
                 .then(function (gooddata) {
                 }, function (errordata) {
                 });
         }
 
+        function loadPrevMessages(lastMes){
+            requestFactory.requestGET(url.messages_history+'/'+$rootScope.user.compId+'/history/'+lastMes.from+'/'+lastMes.to+'/'+lastMes.id,{})
+                .then(function (gooddata) {
+                    var arrayMessages = gooddata.data;
+                    console.log("LOAD MORE MESSAGES : ",arrayMessages);
+                    if(!Array.isArray(arrayMessages)){return;}
+
+                    messagesData.messageDataForLoadMore = arrayMessages[0];
+
+                    $rootScope.$evalAsync(function(){
+                        for(var i=0;i<arrayMessages.length;i+=1){
+                            messagesData.putMessageByUserId(arrayMessages[i].from,arrayMessages[i]);
+                        }
+                    });
+
+                }, function (errordata) {
+                });
+
+        }
+
         function sentMessage() {
-            if (vm.newMessage === '')return;
+            if (vm.newMessage === '') {
+                return;
+            }
             var sendMessage = {
                 id: 0,
                 to: vm.currentUser.userId,
@@ -61,15 +84,15 @@
                 date: new Date().getTime()
             };
 
-            messagesData.putMessageByUserId(vm.currentUser.userId, sendMessage);
             chatData.sendMessage(sendMessage);
             sendMessage.userFlag = true;
+            messagesData.putMessageByUserId(vm.currentUser.userId, sendMessage);
             console.log(sendMessage);
             vm.newMessage = '';
         }
 
         function loadMoreMessage() {
-            console.log('load');
+            loadPrevMessages(messagesData.messageDataForLoadMore);
         }
 
         $scope.$on('selectUser', function (obj, data) {
@@ -79,9 +102,11 @@
             //get reference array (vm.messages get reference array in messagData;
             $rootScope.$evalAsync(function () {
                 vm.messages = messagesData.getMessageByUserId(data.user.userId);
-                console.log('SHOW USER MESSAGES :', vm.messages);
+                console.log('SHOW USER MESSAGES : ', vm.messages);
             });
-            if (vm.currentUser.countUnread.length > 0) sendRead(vm.currentUser.countUnread);
+            if (vm.currentUser.countUnread.length > 0) {
+                sendRead(vm.currentUser.countUnread);
+            }
             vm.currentUser.countUnread = [];
             //vm.messages  = requestFactory.request(null,null ,data);
         });
