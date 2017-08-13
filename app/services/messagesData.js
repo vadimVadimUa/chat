@@ -9,6 +9,8 @@
         var vm = this;
         // key is user id
         var messageArr = [];
+        var messagesQueue = [];
+
 
         function getMessageByUserId(userId){
             if(typeof messageArr[userId] === 'undefined'){

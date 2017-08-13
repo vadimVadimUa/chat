@@ -3,4 +3,5 @@
         <span class="message-text" > {{ message.content }} </span>
     </div>
     <p flex="nogrow" > {{ message.date| date:'HH:mm' }} </p>
+    <img ng-if="message.isSending" class="sending-message-spiner" ng-src="../../images/load.gif">
 </div>

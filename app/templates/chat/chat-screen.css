@@ -53,15 +53,14 @@
     background: transparent;
 }
 
-.container-2 input#new-message {
+.container-2 #new-message {
     margin: 10px 0 10px 0px;
     width: calc(100% - 52px);
     background: #fff;
     border: none;
-    font-size: 10pt;
+    font-size: 14px;
     color: #777;
     -webkit-border-radius: 5px;
-
     -moz-border-radius: 5px;
     border-radius: 5px;
     outline: none;
@@ -70,19 +69,19 @@
 }
 
 
-.container-2 input#new-message::-webkit-input-placeholder {
+.container-2 textarea#new-message::-webkit-input-placeholder {
     color: #BBB;
 }
 
-.container-2 input#new-message:-moz-placeholder { /* Firefox 18- */
+.container-2 textarea#new-message:-moz-placeholder { /* Firefox 18- */
     color: #BBB;
 }
 
-.container-2 input#new-message::-moz-placeholder { /* Firefox 19+ */
+.container-2 textarea#new-message::-moz-placeholder { /* Firefox 19+ */
     color: #BBB;
 }
 
-.container-2 input#new-message:-ms-input-placeholder {
+.container-2 textarea#new-message:-ms-input-placeholder {
     color: #BBB;
 }
 

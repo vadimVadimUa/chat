@@ -9,13 +9,13 @@
         var vm = this;
 
         vm.users = [
-            // {
-            //     userId : 5,
-            //     userName : 'robert',
-            //     status: '0',
-            //     unreadCount: [0],
-            //     compId: "00013"
-            // }
+            {
+                userId : 5,
+                userName : 'robert',
+                status: '0',
+                countUnread: [0],
+                compId: "00013"
+            }
         ];
 
         chatData.login = function (user) {
@@ -55,13 +55,13 @@
             console.log("RESIVE 'chat' event:", users);
 
             //save users to array by index - id user
-            users.forEach(function (item, key, array) {
-                if (item.userId !== $rootScope.user.userId) {
-                    item.countUnread = [];
-                    vm.users[item.userId] = item;
-                }
-            });
-            $rootScope.$evalAsync(true);
+            $rootScope.$evalAsync(function(){
+                users.forEach(function (item, key, array) {
+                    if (item.userId !== $rootScope.user.userId) {
+                        item.countUnread = [];
+                        vm.users[item.userId] = item;
+                    }
+            });});
             getUnreadMessages();
         };
 
@@ -79,7 +79,9 @@
             }
             console.log('RECIVE MESSAGES UNREAD : ', messagesArr);
             $rootScope.$evalAsync(function () {
+
                 messagesData.messageDataForLoadMore = messagesArr[0];
+
                 for (var i = 0; i < messagesArr.length; i++) {
                     messagesArr[i].userFlag = false;
                     messagesData.putMessageByUserId(messagesArr[i].from, messagesArr[i]);
@@ -87,7 +89,5 @@
                 }
             });
         }
-
-        // this.users = [];
     }
 })();

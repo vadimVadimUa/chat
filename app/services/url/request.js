@@ -15,25 +15,6 @@
     requestFactory.$inject = ['$http', '$q'];
 
     function requestFactory($http, $q) {
-
-        // var a1 = [
-        //     {
-        //         message: "ghbdtnwertwertwegdfsgsdfg sdfgs dfgsdfgsdf gsdfgsdfg sdfgsdfgsdfgsrgsdasdf adsf adsf asdf asdf asdf asdf asdf asdf asdf fgs dfgsdfg",
-        //         date: 1500908062800,
-        //         userFlag: true
-        //     },
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: false},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: true},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: true},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: false},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: false},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: true}
-        // ];
-        // var a2 = [
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: false},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: false},
-        //     {message: "ghbdtn", date: 1500908062800, userFlag: true}
-        // ];
         return {
             requestGet: requestGet,
             requestPost: requestPost,

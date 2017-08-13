@@ -6,15 +6,17 @@
         .module('app').directive('ngEnter', function () {
         return function (scope, element, attrs) {
             element.bind("keydown keypress", function (event) {
-                if (event.which === 13) {
-                    scope.$apply(function () {
-                        scope.$eval(attrs.ngEnter);
-                    });
-
-                    event.preventDefault();
+                var code = event.keyCode || event.which;
+                if (code === 13) {
+                    if (!event.shiftKey) {
+                        scope.$evalAsync(function () {
+                            scope.$eval(attrs.ngEnter);
+                            event.preventDefault();
+                        });
+                    }
                 }
             });
-        }
-    })
+        };
+    });
 
 })();

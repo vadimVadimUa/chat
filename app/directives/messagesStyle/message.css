@@ -1,4 +1,9 @@
 
+.sending-message-spiner {
+    height: 20px;
+    width: auto;
+}
+
 .message-text{
     margin: 0 10px !important;
     border-radius: 5px;

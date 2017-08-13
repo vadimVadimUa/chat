@@ -23,8 +23,8 @@
                 <form name="userForm">
                     <section layout="row" layout-xs="column" layout-align="center end" layout-wrap>
                         <div class="container-2">
-                            <input id="new-message"  ng-model="vm.newMessage"
-                                   ng-enter="vm.sentMessage()" ng-model="vm.newMessage">
+                            <textarea rows="3" id="new-message"
+                                      ng-enter="vm.sentMessage()" ng-model="vm.newMessage"></textarea>
                         </div>
                         <md-button class="sent-btn md-raised" ng-click="vm.sentMessage()"><md-icon> trending_flat</md-icon></md-button>
                     </section>
