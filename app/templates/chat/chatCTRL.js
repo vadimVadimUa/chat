@@ -56,7 +56,7 @@
         }
 
         function  getLastMessagesForDialog(){
-            requestFactory.requestGET(url.messages_history + '/' + $rootScope.user.compId + '/last/5/' + vm.currentChatUser.userId+ '/' + $rootScope.user.userId, {})
+            requestFactory.requestGet(url.messages_history + '/' + $rootScope.user.compId + '/last/5/' + vm.currentChatUser.userId+ '/' + $rootScope.user.userId, {})
                 .then(function (gooddata) {
                     var arrayMessages = gooddata.data;
                     console.log("LOAD LAST 5 MESSAGES : ", arrayMessages);
@@ -74,7 +74,7 @@
         }
 
         function loadPrevMessages(lastMes) {
-            requestFactory.requestGET(url.messages_history + '/' + $rootScope.user.compId + '/history/' + lastMes.from + '/' + lastMes.to + '/' + lastMes.id, {})
+            requestFactory.requestGet(url.messages_history + '/' + $rootScope.user.compId + '/history/' + lastMes.from + '/' + lastMes.to + '/' + lastMes.id, {})
                 .then(function (gooddata) {
                     var arrayMessages = gooddata.data;
                     console.log("LOAD MORE MESSAGES : ", arrayMessages);
@@ -109,7 +109,7 @@
             chatData.sendMessage(sendMessage);
             sendMessage.userFlag = true;
             sendMessage.isSending = true;
-            var mesIndex = messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
+            messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
             console.log(sendMessage);
             vm.newMessage = '';
         }
