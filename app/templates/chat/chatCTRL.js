@@ -42,6 +42,11 @@
             });
         };
 
+        chatData.topicDelivered = function (message) {};
+        chatData.topicSeen = function (message) {};
+
+
+
         function sendRead(idArray) {
             console.log("ID ARRRY : ", idArray);
             requestFactory.requestPostData(url.messages_read + '/' + $rootScope.user.compId + '/read', idArray)
@@ -104,7 +109,7 @@
             chatData.sendMessage(sendMessage);
             sendMessage.userFlag = true;
             sendMessage.isSending = true;
-            messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
+            var mesIndex = messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
             console.log(sendMessage);
             vm.newMessage = '';
         }
