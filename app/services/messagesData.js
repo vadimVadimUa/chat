@@ -4,13 +4,13 @@
     angular
         .module('app')
         .factory('messagesData', messagesData);
-    messagesData.$inject = ['chatUtil'];
-    function messagesData(chatUtil) {
+    messagesData.$inject = [];
+    function messagesData() {
         var vm = this;
-        // key is user id
+        // key is user id;
         var messageArr = [];
-        var messagesQueue = [];
 
+        var messageQuery = [];
 
         function getMessageByUserId(userId){
             if(typeof messageArr[userId] === 'undefined'){
@@ -28,7 +28,8 @@
         vm.service = {
             getMessageByUserId : getMessageByUserId,
             putMessageByUserId : putMessageByUserId,
-            messageDataForLoadMore: undefined
+            messageDataForLoadMore: undefined,
+            messageQuery : messageQuery
         };
 
         return vm.service;

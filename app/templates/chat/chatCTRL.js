@@ -103,7 +103,7 @@
 
             chatData.sendMessage(sendMessage);
             sendMessage.userFlag = true;
-            // sendMessage.isSending = true;
+            sendMessage.isSending = true;
             messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
             console.log(sendMessage);
             vm.newMessage = '';
