@@ -21,7 +21,7 @@
 
         function Login() {
             //-------------------------------------------
-            if (vm.UserData.username && vm.UserData.userid && vm.UserData.company) {
+            if (vm.UserData.username && vm.UserData.userid>=0 && vm.UserData.company) {
                 // var url = $state.href('chat');
                 // $window.open(url, "C-Sharpcorner", "width=700,height=500");
                 console.log(vm.url.login);
@@ -30,6 +30,7 @@
                     .then(function (gooddata) {
                         console.log("recive from backend:",gooddata);
                         $rootScope.user = gooddata.data;
+                        $rootScope.user.countUnread = []; //only for testing, when message from to, where id = id
                         $state.go('chat');
                         // var url = $state.href('chat');
                         // $window.open(url, "C-Sharpcorner", "width=700,height=500");

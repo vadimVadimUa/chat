@@ -20,7 +20,8 @@
             changeStatusUser:function (message) {},
             connectionError:function (message) {},
             topicSeen : function(submitMessage){},
-            topicDelivered : function(submitMessage){},
+            topicSend : function(submitMessage){},
+            topicError : function(appError){ console.log('ERROR : ', appError)},
             //-----------------do not change, only call
             sendMessage : function(obj_message) {
                     console.log(obj_message);
@@ -67,17 +68,23 @@
                     vm.func.reply(JSON.parse(message.body));
                 });
 
-
                 chatSocket.subscribe("/topic/public.changedStatus", function(message) {
                     vm.func.changeStatusUser(JSON.parse(message.body));
                 });
 
-                chatSocket.subscribe("/topic.seen", function(message) {
+                chatSocket.subscribe("/topic/seen/"+$rootScope.user.compId, function(message) {
+                    console.log('seen message socket aciton');
                     vm.func.topicSeen(JSON.parse(message.body));
                 });
 
-                chatSocket.subscribe("/topic.delivered", function(message) {
-                    vm.func.topicDelivered(JSON.parse(message.body));
+                chatSocket.subscribe("/topic/send/"+$rootScope.user.compId, function(message) {
+                    console.log('send message socket aciton');
+                    vm.func.topicSend(JSON.parse(message.body));
+                });
+
+                chatSocket.subscribe("/topic/errors/", function(message) {
+                    console.log('error message socket aciton');
+                    vm.func.topicError(JSON.parse(message.body));
                 });
 
             }, function(error) {
@@ -86,7 +93,6 @@
                 $timeout(initStompClient, 15000);
             });
         };
-
         return vm.func;
     }
 })();

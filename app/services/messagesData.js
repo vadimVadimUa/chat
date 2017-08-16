@@ -9,37 +9,34 @@
         var vm = this;
         // key is user id;
         var messageArr = [];
-        var messageQuery = [];
-
-
 
         function getMessageByUserId(userId){
-            if(typeof messageArr[userId] === 'undefined'){
+            if(messageArr[userId] === undefined){
                 messageArr[userId] = [];
             }
             return messageArr[userId];
         }
 
         function putMessageByUserId(userId,message) {
-            if(typeof messageArr[userId] === 'undefined'){
+            if(messageArr[userId] === undefined){
                 messageArr[userId] = [];
             }
             messageArr[userId].push(message);
             return  {
                 index : messageArr[userId].length-1,
-                userId:userId
+                userId: userId
             };
         }
 
-        function setSendingMessageByIndex(userId,index){
-            if(typeof messageArr[userId] === 'undefined'){
+        function setMessageByIndex(userId,index,message){
+            if(messageArr[userId] === undefined){
                 messageArr[userId] = [];
             }
-            messageArr[userId][index].isSending = false;
+            messageArr[userId][index] = message;
         }
 
         function getMessageByIndex(userId,index){
-            if(typeof messageArr[userId] === 'undefined'){
+            if(messageArr[userId] === undefined){
                 messageArr[userId] = [];
             }
             return messageArr[userId][index];
@@ -48,10 +45,9 @@
         vm.service = {
             getMessageByUserId : getMessageByUserId,
             putMessageByUserId : putMessageByUserId,
-            setSendingMessageByIndex: setSendingMessageByIndex,
+            setMessageByIndex: setMessageByIndex,
             getMessageByIndex : getMessageByIndex,
-            messageDataForLoadMore: undefined,
-            messageQuery : messageQuery
+            messageDataForLoadMore: undefined
         };
 
         return vm.service;

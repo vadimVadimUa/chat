@@ -29,7 +29,7 @@
     </md-content>
 
     <div class="helper" layout="row" layout-align="center">
-        <div flex="50">Online: {{(vm.users|filter:{status : 0}).length}}</div>
+        <div flex="50">Online: {{ 1+((vm.users|filter:{status : 0}).length) }}</div>
         <div class="totalUsers" flex="50">Total: {{(vm.users|filter: {userId}).length+1}}</div>
     </div>
 

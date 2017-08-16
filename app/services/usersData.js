@@ -8,15 +8,7 @@
     function usersData($rootScope, chatData, messagesData, requestFactory, url) {
         var vm = this;
 
-        vm.users = [
-            {
-                userId : 5,
-                userName : 'robert',
-                status: '0',
-                countUnread: [0],
-                compId: "00013"
-            }
-        ];
+        vm.users = [];
 
         chatData.login = function (user) {
             console.log("RESIVE 'login' event:", user);
@@ -80,12 +72,14 @@
             console.log('RECIVE MESSAGES UNREAD : ', messagesArr);
             $rootScope.$evalAsync(function () {
 
-                messagesData.messageDataForLoadMore = messagesArr[0];
+                messagesData.messageDataForLoadMore = messagesArr[messagesArr.length-1];
 
                 for (var i = 0; i < messagesArr.length; i++) {
-                    messagesArr[i].userFlag = false;
-                    messagesData.putMessageByUserId(messagesArr[i].from, messagesArr[i]);
-                    vm.users[messagesArr[i].from].countUnread.push(messagesArr[i].id);
+                    if(vm.users[messagesArr[i].from] !== undefined) {
+                        messagesArr[i].userFlag = false;
+                        messagesData.putMessageByUserId(messagesArr[i].from, messagesArr[i]);
+                        vm.users[messagesArr[i].from].countUnread.push(messagesArr[i]);
+                    }
                 }
             });
         }

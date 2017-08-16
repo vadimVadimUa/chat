@@ -13,7 +13,10 @@ angular.module('app')
                 url: '/chat',
                 templateUrl: 'templates/chat/chat.html',
                 controller: 'ChatCtrl',
-                controllerAs: 'vm'
-            });
+                controllerAs: 'vm',
+                    onEnter:['$rootScope','$state',function($rootScope,$state){
+                            if($rootScope.user === undefined ) $state.go('login');
+                        }]
+                });
         }
     ]);
