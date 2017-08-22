@@ -24,7 +24,7 @@
             topicError : function(appError){ console.log('ERROR : ', appError)},
             //-----------------do not change, only call
             sendMessage : function(obj_message) {
-                    console.log(obj_message);
+
                     chatSocket.send("/app/private", {},angular.toJson(obj_message));
             },
             // status 0 - 1 - 2
@@ -73,17 +73,14 @@
                 });
 
                 chatSocket.subscribe("/topic/seen/"+$rootScope.user.compId, function(message) {
-                    console.log('seen message socket aciton');
                     vm.func.topicSeen(JSON.parse(message.body));
                 });
 
-                chatSocket.subscribe("/topic/send/"+$rootScope.user.compId, function(message) {
-                    console.log('send message socket aciton');
+                chatSocket.subscribe("/topic/send/"+$rootScope.user.compId + '/' + $rootScope.user.userId, function(message) {
                     vm.func.topicSend(JSON.parse(message.body));
                 });
 
                 chatSocket.subscribe("/topic/errors/", function(message) {
-                    console.log('error message socket aciton');
                     vm.func.topicError(JSON.parse(message.body));
                 });
 

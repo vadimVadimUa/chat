@@ -12,7 +12,10 @@
                 <md-list>
                     <section class="container-more-message" layout="row" layout-sm="column" layout-align="center center"
                              layout-wrap>
-                        <md-button md-no-ink class="md-primary" ng-click="vm.loadMoreMessage()">Load more</md-button>
+                            <md-button md-no-ink class="md-primary" ng-click="vm.loadMoreMessage()"
+                                       layout="row"   layout-align="center center">Load more
+                                <img ng-src="images/load.gif" ng-if="vm.loading_more" class="loading-more-message">
+                            </md-button>
                     </section>
                     <md-list-item class="md-2-line list-messages" ng-repeat="message in vm.messages | orderBy:'date' track by $index ">
                         <messages></messages>

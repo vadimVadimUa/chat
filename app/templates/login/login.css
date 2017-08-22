@@ -1,11 +1,12 @@
 
 .container-logo{
     height: 100vh;
-    background-image: url(../../images/background.png);
+    background: url(../../images/background.png) no-repeat;
+    background-size: cover;
 
 }
 .logo{
-    height: 80vh;
+    height: 100vh;
     background: url(../../images/ximple.png) no-repeat center center;
 }
 .loginError{

@@ -9,6 +9,17 @@
         var vm = this;
         // key is user id;
         var messageArr = [];
+        var messageDataForLoadMore = [];
+
+        function setMessageForLoadMore(userId,message){
+            messageDataForLoadMore[userId] = message;
+        }
+
+        function getMessageForLoadMore(userId){
+            if(messageDataForLoadMore[userId]!==undefined) {
+                return messageDataForLoadMore[userId];
+            }
+        }
 
         function getMessageByUserId(userId){
             if(messageArr[userId] === undefined){
@@ -47,7 +58,9 @@
             putMessageByUserId : putMessageByUserId,
             setMessageByIndex: setMessageByIndex,
             getMessageByIndex : getMessageByIndex,
-            messageDataForLoadMore: undefined
+            setMessageForLoadMore: setMessageForLoadMore,
+            getMessageForLoadMore : getMessageForLoadMore
+
         };
 
         return vm.service;

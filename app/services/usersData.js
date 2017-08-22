@@ -71,14 +71,12 @@
             }
             console.log('RECIVE MESSAGES UNREAD : ', messagesArr);
             $rootScope.$evalAsync(function () {
-
-                messagesData.messageDataForLoadMore = messagesArr[messagesArr.length-1];
-
                 for (var i = 0; i < messagesArr.length; i++) {
                     if(vm.users[messagesArr[i].from] !== undefined) {
                         messagesArr[i].userFlag = false;
                         messagesData.putMessageByUserId(messagesArr[i].from, messagesArr[i]);
                         vm.users[messagesArr[i].from].countUnread.push(messagesArr[i]);
+                        messagesData.setMessageForLoadMore(messagesArr[i].from,messagesArr[i]);
                     }
                 }
             });

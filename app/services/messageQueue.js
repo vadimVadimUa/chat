@@ -4,8 +4,9 @@
     angular
         .module('app')
         .service('messagesQueue', messagesQueue);
-    messagesQueue.$inject = ['chatData','messagesData'];
-    function messagesQueue(chatData,messagesData) {
+    messagesQueue.$inject = ['chatData', 'messagesData'];
+
+    function messagesQueue(chatData, messagesData) {
         var vm = this;
         var sendingState = false;
         var mQueue = [];
@@ -14,23 +15,22 @@
          *
          * @param messageObj - userId, index (in messagesData)
          */
-        function addToSendQueue(messageObj){
-            console.log(messageObj,"MESSAGE OBJ ------------",messageObj);
-            if(messageObj.userId === undefined || messageObj.index === undefined) return;
+        function addToSendQueue(messageObj) {
+            if (messageObj.userId === undefined || messageObj.index === undefined) return;
             mQueue.push(messageObj);
-            if(!sendingState){
+            if (!sendingState) {
                 sendingState = true;
                 sendMessage();
             }
         }
 
-        function sendMessage(){
-            if(mQueue[0]===undefined){
+        function sendMessage() {
+            if (mQueue[0] === undefined) {
                 sendingState = false;
                 mQueue = [];
                 return;
             }
-            var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId,mQueue[0].index);
+            var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId, mQueue[0].index);
             chatData.sendMessage({
                 id: 0,
                 to: tempMessage.to,
@@ -43,18 +43,17 @@
         }
 
         chatData.topicSend = function (submitMessage) {
-            console.log("MESSAGE  IS DELIVERED -------------",submitMessage);
-            if(submitMessage.id !== undefined && submitMessage.from !== undefined && submitMessage.to) {
-                var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId,mQueue[0].index);
-                tempMessage.isSending = false;
-                messagesData.setMessageByIndex(mQueue[0].userId,mQueue[0].index,tempMessage);
+            console.log("MESSAGE  IS DELIVERED -------------", submitMessage);
+            if(mQueue.length===0) return;
+            var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId, mQueue[0].index);
+            tempMessage.isSending = false;
+            messagesData.setMessageByIndex(mQueue[0].userId, mQueue[0].index, tempMessage);
+            if (mQueue.length === 1) {
                 sendingState = false;
-                if(mQueue.length === 1){
-                    mQueue = [];
-                } else {
-                    mQueue.shift();
-                    sendMessage();
-                }
+                mQueue = [];
+            } else {
+                mQueue.shift();
+                sendMessage();
             }
         };
 
