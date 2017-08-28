@@ -18,6 +18,7 @@
         vm.reSendMessage = reSendMessage;
         vm.newMessage = "";
         vm.messages = [];
+        var COUNT_PRE_MESSAGES = 5;
 
         chatChildWindowService.sendEvent('chatWindowReady',{});
 
@@ -72,8 +73,10 @@
 
         function loadPrevMessages(lastMes) {
             vm.loading_more = true;
-            var reqUrl = url.messages_history + '/' + $rootScope.user.compId + '/last/5/' + vm.currentChatUser.userId+ '/' + $rootScope.user.userId;
-            if(lastMes !== undefined) reqUrl = url.messages_history + '/' + $rootScope.user.compId + '/history/' + lastMes.from + '/' + lastMes.to + '/' + lastMes.id;
+            var reqUrl = url.messages_history + '/' + $rootScope.user.compId + '/last/'+COUNT_PRE_MESSAGES+'/' + vm.currentChatUser.userId+ '/' + $rootScope.user.userId;
+            if(lastMes !== undefined) {
+                reqUrl = url.messages_history + '/' + $rootScope.user.compId + '/history/' + lastMes.from + '/' + lastMes.to + '/' + lastMes.id;
+            }
             requestFactory.requestGet(reqUrl, {})
                 .then(function (gooddata) {
                     var arrayMessages = gooddata.data;
