@@ -5,12 +5,13 @@
         .module('app')
         .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$scope', '$state', '$window', 'url', 'requestFactory', '$http', '$rootScope','chatParentWindowService'];
+    LoginCtrl.$inject = ['$scope', '$state', '$window', 'url', 'requestFactory', '$http', '$rootScope','chatParentWindowService','usersData'];
 
-    function LoginCtrl($scope, $state, $window, url, requestFactory, $http, $rootScope,chatParentWindowService) {
+    function LoginCtrl($scope, $state, $window, url, requestFactory, $http, $rootScope,chatParentWindowService,usersData) {
         var vm = this;
 
         vm.chatLoading = false;
+        vm.countUsers = 0;
         vm.Login = Login;
         vm.logout = logout;
         vm.openChat = openChat;
@@ -24,6 +25,11 @@
 
         function logout() {
             chatParentWindowService.close();
+            requestFactory.requestPost(vm.url.logout, {})
+                .then(function (gooddata) {
+                }, function (errordata) {
+                });
+            console.log('LOGOUT');
             delete $rootScope.user;
             $window.location.reload();
         }
@@ -34,6 +40,7 @@
 
         $scope.$on('unreadMessageIsLoaded',function (event,data) {
             vm.chatLoading = false;
+            vm.countUsers = usersData.users.length;
         });
 
         function Login() {

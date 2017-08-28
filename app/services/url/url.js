@@ -15,6 +15,7 @@
         var server = "http://localhost:9080/";
         var url = {
             login: server + 'login_custom',
+            logout: server+'logout',
             // socket: '/WSChatWeb/wschat',
             socket: server+'wschat',
             messages_unread: server+'messages/unread',    //  /{companyId}/{userId}   -GET

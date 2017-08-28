@@ -63,8 +63,16 @@
                     <md-icon>email</md-icon>
                     <span> {{$root.user.unread }}</span>
                 </div>
-                <div ng-click="vm.logout()">logout</div>
+                <div>
+                    <md-icon>supervisor_account</md-icon>
+                    <span>{{vm.countUsers}}</span>
+                </div>
             </div>
+        </div>
+
+        <div ng-if="$root.user" class="logout-button" >
+            <div>{{$root.user.userName}}</div>
+            <a href="" ng-click="vm.logout()">logout</a>
         </div>
     </md-content>
 </div>
