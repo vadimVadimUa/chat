@@ -17,3 +17,111 @@
     min-height: 14px;
     padding: 0;
 }
+
+.chat-action-element {
+    position: fixed;
+    max-width: 200px;
+    overflow:hidden;
+    bottom: 25px;
+    right: 25px;
+    padding: 8px;
+    background: #fdfffb;
+    border: 1px solid #666;
+    border-radius:5px;
+    cursor: pointer;
+}
+
+.chat-action-element .user-status {
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 0;
+}
+
+.chat-action-element_name {
+    overflow: hidden;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.chat-action-element_unread md-icon, .chat-action-element_unread span {
+    vertical-align: middle;
+}
+
+.chat-action-element_loading img {
+    width:50px;
+    height: 50px;
+}
+
+.chat-action-element_container {
+    outline:none !important;
+    border: none !important;
+}
+/*customize toastr*/
+.toast-bottom-right {
+    right: 25px;
+    bottom: 25px;
+}
+
+#toast-container .toast-info {
+    background-color: #ffffff;
+}
+
+#toast-container .toast:hover {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #222;
+    opacity: 1;
+    cursor: pointer;
+}
+
+#toast-container * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#toast-container .toast {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #666666;
+    opacity: 1;
+    border:1px solid black;
+}
+
+.toast-close-button {
+    position: relative;
+    right: -0.3em;
+    top: -0.3em;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #666;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.toast-close-button:hover,
+.toast-close-button:focus {
+    opacity:1;
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

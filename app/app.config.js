@@ -15,7 +15,7 @@ angular.module('app')
                 controller: 'ChatCtrl',
                 controllerAs: 'vm',
                     onEnter:['$rootScope','$state',function($rootScope,$state){
-                            if($rootScope.user === undefined ) $state.go('login');
+                            // if($rootScope.user === undefined ) $state.go('login');
                         }]
                 });
         }

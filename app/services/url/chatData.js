@@ -4,11 +4,9 @@
     angular
         .module('app')
         .factory('chatData', chatData);
-    chatData.$inject = ['url', '$rootScope','chatSocket','$state','$timeout'];
-    function chatData( url, $rootScope, chatSocket, $state,$timeout) {
-        if($rootScope.user === undefined) {
-            $state.go('login');
-        }
+    chatData.$inject = ['url', '$rootScope','chatSocket','$state','$timeout','$q'];
+    function chatData( url, $rootScope, chatSocket, $state,$timeout,$q) {
+
         var vm = this;
        // function for work with the backend, message - object or array
         vm.func = {
@@ -50,8 +48,6 @@
 
             chatSocket.connect(function(frame) {
 
-                $rootScope.isConnected = true;
-
                 chatSocket.subscribe("/topic.login", function(message) {
                     vm.func.login(JSON.parse(message.body));
                 });
@@ -66,6 +62,7 @@
 
                 chatSocket.subscribe("/queue/reply/"+$rootScope.user.compId+"/"+$rootScope.user.userId, function(message) {
                     vm.func.reply(JSON.parse(message.body));
+                    $rootScope.$broadcast('chat_reply',JSON.parse(message.body));
                 });
 
                 chatSocket.subscribe("/topic/public.changedStatus", function(message) {

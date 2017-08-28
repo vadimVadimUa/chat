@@ -5,12 +5,9 @@
         .module('app')
         .controller('ChatCtrl', ChatCtrl);
 
-    ChatCtrl.$inject = ['$scope', '$rootScope', 'requestFactory', 'url', 'chatData', 'messagesData', 'usersData', '$state','messagesQueue','$timeout'];
-    function ChatCtrl($scope, $rootScope, requestFactory, url, chatData, messagesData, usersData, $state,messagesQueue,$timeout) {
-        if ($rootScope.user === undefined) {
-            $state.go('login');
-        }
-        chatData.initStompClient();
+    ChatCtrl.$inject = ['$scope', '$rootScope','chatChildWindowService', 'requestFactory', 'url','$timeout'];
+    function ChatCtrl($scope, $rootScope, chatChildWindowService, requestFactory, url, $timeout) {
+
         var vm = this;
         vm.currentChatUser = undefined;
         vm.showLogo = true;
@@ -18,38 +15,45 @@
         vm.loading_more = false;
         vm.sentMessage = sentMessage;
         vm.loadMoreMessage = loadMoreMessage;
+        vm.reSendMessage = reSendMessage;
         vm.newMessage = "";
         vm.messages = [];
 
-        chatData.reply = function (message) {
+        chatChildWindowService.sendEvent('chatWindowReady',{});
+
+        $rootScope.$on('chat_reply', function (event, message) {
             console.log("RESIVE 'reply' event : ", message);
-            $rootScope.$evalAsync(function () {
+
                 vm.scroll = true;
                 message.userFlag = false;
 
-                messagesData.putMessageByUserId(message.from, message);
+                chatChildWindowService.messagesData.putMessageByUserId(message.from, message);
                 if (vm.currentChatUser !== undefined && message.from === vm.currentChatUser.userId) {
+                    $rootScope.user.unread+=1;
                     sendRead([message]);
                 } else {
-                    if (usersData.users[message.from] !== undefined) {
 
-                        if(messagesData.getMessageForLoadMore(message.from)===undefined){
-                            messagesData.setMessageForLoadMore(message.from,message);
+                    if (chatChildWindowService.usersData.getUserByID(message.from) !== undefined) {
+                        $rootScope.user.unread+=1;
+                        if(chatChildWindowService.messagesData.getMessageForLoadMore(message.from)===undefined){
+                            chatChildWindowService.messagesData.setMessageForLoadMore(message.from,message);
                         }
-                        usersData.users[message.from].countUnread.push(message);
+                        chatChildWindowService.usersData.getUserByID(message.from).countUnread.push(message);
                     }
                 }
-            });
-        };
+                chatChildWindowService.sendEvent('updateView',{});
+            $rootScope.$evalAsync();
+        });
 
 
         function sendRead(mesArray) {
             //async send reading message
+            if(!Array.isArray(mesArray)){ return; }
             $timeout(function(){
                 console.log("UNREAD ARRRY : ", mesArray);
                 var tempArr = [];
                 mesArray.forEach(function (value,key,array) {
-                    chatData.messageSeen({
+                    chatChildWindowService.chatData.messageSeen({
                         id:value.id,
                         from:value.from,
                         to:value.to
@@ -58,6 +62,8 @@
                 });
                 requestFactory.requestPostData(url.messages_read + '/' + $rootScope.user.compId + '/read', tempArr)
                     .then(function (gooddata) {
+                        $rootScope.user.unread-=tempArr.length;
+                        chatChildWindowService.sendEvent('updateView',{});
                     }, function (errordata) {
                     });
             },20);
@@ -77,15 +83,16 @@
                         return;
                     }
                     var tempUserId = arrayMessages[arrayMessages.length-1].from === $rootScope.user.userId ? arrayMessages[arrayMessages.length-1].to:arrayMessages[arrayMessages.length-1].from;
-                    messagesData.setMessageForLoadMore(tempUserId,arrayMessages[arrayMessages.length-1]);
+                    chatChildWindowService.messagesData.setMessageForLoadMore(tempUserId,arrayMessages[arrayMessages.length-1]);
 
                     $rootScope.$evalAsync(function () {
                         for (var i = 0; i < arrayMessages.length; i += 1) {
                             arrayMessages[i].userFlag = arrayMessages[i].from !== $rootScope.user.userId ? false : true;
                             var userFrom = arrayMessages[i].from === $rootScope.user.userId ? arrayMessages[i].to: arrayMessages[i].from;
-                            messagesData.putMessageByUserId(userFrom, arrayMessages[i]);
+                            chatChildWindowService.messagesData.putMessageByUserId(userFrom, arrayMessages[i]);
                         }
                         vm.loading_more = false;
+                        $rootScope.$broadcast('updateView',{});
                     });
                 }, function (errordata) {
                     vm.loading_more = false;
@@ -110,17 +117,23 @@
             vm.scroll = true;
             sendMessage.userFlag = true;
             sendMessage.isSending = true;
-            var messageIndex = messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
-            messagesQueue.addToSendQueue(messageIndex);
+            var messageIndex = chatChildWindowService.messagesData.putMessageByUserId(vm.currentChatUser.userId, sendMessage);
+            chatChildWindowService.messagesQueue.addToSendQueue(messageIndex);
             console.log(sendMessage);
             vm.newMessage = '';
         }
 
+        function reSendMessage(message){
+            message.isSending = true;
+            chatChildWindowService.messagesQueue.addToSendQueue(message.resendData);
+            message.isError = false;
+        }
+
         function loadMoreMessage() {
-            console.log(messagesData.getMessageForLoadMore(vm.currentChatUser.userId));
-            if(messagesData.getMessageForLoadMore(vm.currentChatUser.userId)!== undefined){
+            console.log(chatChildWindowService.messagesData.getMessageForLoadMore(vm.currentChatUser.userId));
+            if(chatChildWindowService.messagesData.getMessageForLoadMore(vm.currentChatUser.userId)!== undefined){
                 vm.scroll = false;
-                loadPrevMessages(messagesData.getMessageForLoadMore(vm.currentChatUser.userId));
+                loadPrevMessages(chatChildWindowService.messagesData.getMessageForLoadMore(vm.currentChatUser.userId));
             }
         }
 
@@ -130,7 +143,7 @@
             vm.showLogo = false;
             //get reference array (vm.messages get reference array in messagData;
             $rootScope.$evalAsync(function () {
-                vm.messages = messagesData.getMessageByUserId(vm.currentChatUser.userId);
+                vm.messages = chatChildWindowService.messagesData.getMessageByUserId(vm.currentChatUser.userId);
                 //we have unread messages from this user
                 if (vm.currentChatUser.countUnread && vm.currentChatUser.countUnread.length > 0) {
 
@@ -138,7 +151,9 @@
                     vm.currentChatUser.countUnread = [];
                 } else {
                     //get last 5 messages
-                    if(messagesData.getMessageByUserId(vm.currentChatUser.userId).length === 0) loadPrevMessages();
+                    if(chatChildWindowService.messagesData.getMessageByUserId(vm.currentChatUser.userId).length === 0){
+                        loadPrevMessages();
+                    }
                 }
             });
 

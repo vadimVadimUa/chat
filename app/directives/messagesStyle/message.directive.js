@@ -11,7 +11,7 @@
         return {
             bindToController: true,
             templateUrl: "directives/messagesStyle/message.html",
-            controller: "usersListCtrl",
+            controller: "ChatCtrl",
             controllerAs: 'vm',
             link: link,
             restrict: 'AE',

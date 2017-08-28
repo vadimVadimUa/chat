@@ -24,7 +24,7 @@
                             </md-content>
                             <span class="loginError">{{vm.loginError}}</span>
                             <section layout="column" layout-align="center end" layout-wrap>
-                                <md-button  type="submit" class="md-raised md-primary">Login</md-button>
+                                <md-button type="submit" class="md-raised md-primary">Login</md-button>
                             </section>
                         </div>
                     </md-content>
@@ -47,4 +47,22 @@
                 </md-content>
             </md-tab>
         </md-tabs>
+
+        <div class="chat-action-element" ng-if="$root.user">
+            <div ng-if="vm.chatLoading" class="chat-action-element_loading"><img ng-src="images/load.gif"></div>
+            <div ng-if="!vm.chatLoading" ng-click="vm.openChat()" class="chat-action-element_container">
+                <div>
+                <span class="user-status"
+                      title="{{$root.user.status == '0' ? 'online' : ( $root.user.status == '1' ? 'not here' : 'don\'t disturb')}}"
+                      ng-class="$root.user.status == '0' ? 'active-status' : ( $root.user.status == '1' ? 'not-here-status' : 'not-active')">
+                </span>
+                    <span class="chat-action-element_name"
+                          title="{{$root.user.userName }}">{{$root.user.userName }}</span>
+                </div>
+                <div class="chat-action-element_unread">
+                    <md-icon>email</md-icon>
+                    <span> {{$root.user.unread }}</span>
+                </div>
+            </div>
+        </div>
 </div>

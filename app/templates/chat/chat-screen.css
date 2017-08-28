@@ -59,6 +59,12 @@
     background: transparent;
 }
 
+@media screen and (max-width: 650px) {
+    .container-2 {
+        width: 100%;
+     }
+}
+
 .container-2 #new-message {
     margin: 10px 0 10px 0px;
     width: calc(100% - 52px);

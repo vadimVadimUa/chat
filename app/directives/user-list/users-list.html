@@ -16,7 +16,7 @@
     <md-content class="users-container">
         <md-list flex>
             <md-list-item
-                    ng-repeat="user in vm.users  | orderBy:'status'  | filter: { userName: vm.searchText } track by $index"
+                    ng-repeat="user in vm.users  | orderBy: 'status'  | filter: { userName: vm.searchText }"
                     ng-click="vm.selectUser(user)"
                     ng-class="{itemUser : user.newMessage, selectedIndex: vm.selectedUser===user.userId}">
                 <span class="user-status"
@@ -29,7 +29,7 @@
     </md-content>
 
     <div class="helper" layout="row" layout-align="center">
-        <div flex="50">Online: {{ 1+((vm.users|filter:{status : 0}).length) }}</div>
+        <div flex="50">Online: {{ 1+((vm.users|filter:{status : '0'}).length) }}</div>
         <div class="totalUsers" flex="50">Total: {{(vm.users|filter: {userId}).length+1}}</div>
     </div>
 

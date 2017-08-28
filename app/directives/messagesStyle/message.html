@@ -2,6 +2,7 @@
     <div class="containerText" ng-class="message.userFlag ? 'myMessageStyle': 'anotherUserMessagesStyle'" flex>
         <span class="message-text" > {{ message.content }} </span>
     </div>
-    <p flex="nogrow" title="{{ message.date| date:'yyyy-MM-dd HH:mm:ss' }}"> {{ message.date| date:'HH:mm' }} </p>
+    <p ng-if="!message.isSending && !message.isError" flex="nogrow" title="{{ message.date| date:'yyyy-MM-dd HH:mm:ss' }}"> {{ message.date| date:'HH:mm' }} </p>
     <img ng-if="message.isSending" class="sending-message-spiner" ng-src="images/load.gif">
+    <md-icon style="cursor:pointer" ng-if="message.isError" ng-click="vm.reSendMessage(message)">autorenew</md-icon>
 </div>

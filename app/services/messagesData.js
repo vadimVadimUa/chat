@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .factory('messagesData', messagesData);
+        .service('messagesData', messagesData);
     messagesData.$inject = [];
     function messagesData() {
         var vm = this;

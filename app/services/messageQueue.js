@@ -4,12 +4,13 @@
     angular
         .module('app')
         .service('messagesQueue', messagesQueue);
-    messagesQueue.$inject = ['chatData', 'messagesData'];
+    messagesQueue.$inject = ['chatData', 'messagesData','$rootScope','$timeout'];
 
-    function messagesQueue(chatData, messagesData) {
+    function messagesQueue(chatData, messagesData,$rootScope,$timeout) {
         var vm = this;
         var sendingState = false;
         var mQueue = [];
+        var TIME_ERROR_SEND = 30000;
 
         /**
          *
@@ -40,6 +41,22 @@
                 delivered: false,
                 date: tempMessage.date
             });
+            $timeout(function(){
+                var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId, mQueue[0].index);
+                tempMessage.isSending = false;
+                tempMessage.isError = true;
+                //save data position and index for resend if need
+                tempMessage.resendData = mQueue[0];
+                messagesData.setMessageByIndex(mQueue[0].userId, mQueue[0].index, tempMessage);
+                if (mQueue.length === 1) {
+                    sendingState = false;
+                    mQueue = [];
+                } else {
+                    mQueue.shift();
+                    sendMessage();
+                }
+                $rootScope.$broadcast('updateView',{});
+            },TIME_ERROR_SEND);
         }
 
         chatData.topicSend = function (submitMessage) {
@@ -48,6 +65,7 @@
             var tempMessage = messagesData.getMessageByIndex(mQueue[0].userId, mQueue[0].index);
             tempMessage.isSending = false;
             messagesData.setMessageByIndex(mQueue[0].userId, mQueue[0].index, tempMessage);
+            $rootScope.$broadcast('updateView',{});
             if (mQueue.length === 1) {
                 sendingState = false;
                 mQueue = [];

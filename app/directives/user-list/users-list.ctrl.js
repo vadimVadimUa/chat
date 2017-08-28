@@ -5,34 +5,34 @@
         .module('app')
         .controller('usersListCtrl', usersListCtrl);
 
-    usersListCtrl.inject = ['$scope', '$rootScope','chatSocket','chatData','messagesData','requestFactory','url','usersData'];
+    usersListCtrl.inject = ['$scope', '$rootScope','chatChildWindowService'];
 
-    function usersListCtrl($scope,  $rootScope,chatData,messagesData,requestFactory,url,usersData) {
+    function usersListCtrl($scope, $rootScope, chatChildWindowService) {
 
         var vm = this;
-        //default get connection status from $rootScope.isConnected
-        vm.isConnected = $rootScope.isConnected;
         vm.selectedUser = undefined;
         vm.TotalUsers = 0;
         vm.searchText = '';
         vm.selectUser = selectUser;
         vm.statusChange = statusChange;
-        //temp user if not data
-        vm.users = usersData.users;
-
-
-        chatData.connectionError = function (message) {
-            vm.isConnected = false;
-        };
+        vm.users = chatChildWindowService.usersData ? chatChildWindowService.usersData.users:[];
 
         vm.statusData = {
-            selected: $rootScope.user.status,
+            selected: $rootScope.user?$rootScope.user.status:'',
             availableOptions: [
                 {id: '0', status: 'online'},
                 {id: '1', status: 'not here'},
-                {id: '2', status: 'offline'}
+                {id: '2', status: 'don\'t disturb'}
             ]
         };
+
+        //its event for case if need select user when click message from parent
+        chatChildWindowService.sendEvent('listUsersIsReady',{});
+
+        //if select user from parent window
+        $rootScope.$on('selectUser',function (event,data) {
+            vm.selectedUser = data.user.userId;
+        });
 
         function selectUser(user) {
             vm.selectedUser = user.userId;
@@ -41,7 +41,9 @@
         }
 
         function statusChange(){
-            chatData.changeStatusSelf(vm.statusData.selected);
+            $rootScope.user.status = vm.statusData.selected;
+            chatChildWindowService.sendEvent('updateView',{});
+            chatChildWindowService.chatData.changeStatusSelf(vm.statusData.selected);
         }
     }
 })();
