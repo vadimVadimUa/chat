@@ -81,6 +81,12 @@
             if (chatHandler && !chatHandler.closed) chatHandler.sendToChat('updateView', data);
         });
 
+        function close(){
+            if(chatHandler) {
+                chatHandler.close();
+            }
+        }
+
         function openChatWindow() {
             if (chatHandler == null || chatHandler.closed) {
                 var url = $state.href('chat');
@@ -91,7 +97,8 @@
 
         return {
             openChatWindow: openChatWindow,
-            init: init
+            init: init,
+            close: close,
         }
     }
 })();

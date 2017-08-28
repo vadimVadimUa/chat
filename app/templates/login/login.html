@@ -1,6 +1,6 @@
 <div ng-cloak>
     <md-content>
-        <md-tabs class="login-container" md-dynamic-height md-border-bottom md-center-tabs="true">
+        <md-tabs ng-if="!$root.user" class="login-container" md-dynamic-height md-border-bottom md-center-tabs="true">
             <md-tab label="Login">
                 <form name="loginForm" ng-submit="vm.Login()">
                     <md-content class="md-padding">
@@ -63,6 +63,8 @@
                     <md-icon>email</md-icon>
                     <span> {{$root.user.unread }}</span>
                 </div>
+                <div ng-click="vm.logout()">logout</div>
             </div>
         </div>
+    </md-content>
 </div>

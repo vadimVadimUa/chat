@@ -12,6 +12,7 @@
 
         vm.chatLoading = false;
         vm.Login = Login;
+        vm.logout = logout;
         vm.openChat = openChat;
         vm.url = url;
         vm.loginError = '';
@@ -21,6 +22,11 @@
             company: "00013"
         };
 
+        function logout() {
+            chatParentWindowService.close();
+            delete $rootScope.user;
+            $window.location.reload();
+        }
 
         function openChat() {
           chatParentWindowService.openChatWindow();
